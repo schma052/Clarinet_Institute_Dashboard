@@ -19,7 +19,7 @@ instrument_str = ('clarinet', 'obeo', 'flute', 'recorder', 'saxophone', 'brass',
 # Streamlit page configuration
 st.title('_Clarinet Institute Dashboard_')
 st.markdown('_**by Matt Schorr**_')
-st.markdown('Please Download the two datasets from my GitHub: schma052/Clarinet_Institute_Dashboard')
+st.markdown(':blue[Please Download the two datasets from my GitHub: schma052/Clarinet_Institute_Dashboard]')
 
 # File uploaders
 uploaded_file_sales = st.file_uploader("Upload CSV of Physical Sales (Weebly)", type='csv')

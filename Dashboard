@@ -1,3 +1,4 @@
+# Imports
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -12,12 +13,6 @@ from plotly.subplots import make_subplots
 
 # Set global font size for matplotlib
 plt.rcParams.update({'font.size': 13})  # You can adjust the size here as needed
-
-#matplotlib colors
-    # Standard violet RGB is (148, 0, 211)
-    # Darker violet RGB, reduced brightness by about 20%
-violet = ((148 - 30)/255, 0/255, (211 - 40)/255)
-dark_grey = (18/255, 18/255, 18/255)
 
 # Givens
 instrument_str = ('clarinet', 'obeo', 'flute', 'recorder', 'saxophone', 'brass', 'trumpet]', 'bassoon', 'frenchhorn', 'woodwind', 'tuba', 'euphonium', 'soundfiles', 'string')

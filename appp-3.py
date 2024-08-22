@@ -280,7 +280,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Display the plot in Streamlit
     monthly_fig = plot_monthly_sales(monthly_data)
     st.plotly_chart(monthly_fig, use_container_width=True)
-    st.markdown(":blue[A semi-annual season can be clearly observed.]")
+    st.markdown(":blue[A semi-annual season can be clearly observed for physical products, while digital products fluctuate with the quarter.]")
     
     
     def plot_weekly_sales(weekly_data_sorted):

@@ -13,12 +13,6 @@ from plotly.subplots import make_subplots
 # Set global font size for matplotlib
 plt.rcParams.update({'font.size': 13})  # You can adjust the size here as needed
 
-#matplotlib colors
-    # Standard violet RGB is (148, 0, 211)
-    # Darker violet RGB, reduced brightness by about 20%
-violet = ((148 - 30)/255, 0/255, (211 - 40)/255)
-dark_grey = (18/255, 18/255, 18/255)
-
 # Givens
 instrument_str = ('clarinet', 'obeo', 'flute', 'recorder', 'saxophone', 'brass', 'trumpet]', 'bassoon', 'frenchhorn', 'woodwind', 'tuba', 'euphonium', 'soundfiles', 'string')
 
@@ -107,7 +101,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Display the merged DataFrame
     st.markdown("**Daily Sales:** :blue[Notice the slow fade into the darker digital sales]")
     st.area_chart(merged_df.set_index('Date')[['Physical Sales', 'Digital Sales']], stack = True)
-    st.markdown(":blue[Digital sales improves revenue stability because of its three higher quartiles and lower standard deviation.]")
+    st.markdown(":blue[Digital sales improves revenue stability.]")
     st.dataframe(qry_df, hide_index = True)
     st.dataframe(merged_df.describe())
     

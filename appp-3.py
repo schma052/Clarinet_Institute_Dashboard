@@ -17,7 +17,7 @@ plt.rcParams.update({'font.size': 13})  # You can adjust the size here as needed
 instrument_str = ('clarinet', 'obeo', 'flute', 'recorder', 'saxophone', 'brass', 'trumpet]', 'bassoon', 'frenchhorn', 'woodwind', 'tuba', 'euphonium', 'soundfiles', 'string')
 
 # Streamlit page configuration
-st.title('_Clarinet Institute Dashboard_')
+st.title('_Online Music Retailer Dashboard_')
 st.markdown('_**by Matt Schorr**_')
 st.markdown('**Please download the two datasets from my GitHub: :blue[schma052/Clarinet_Institute_Dashboard]**')
 

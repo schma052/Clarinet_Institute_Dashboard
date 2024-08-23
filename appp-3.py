@@ -19,7 +19,7 @@ instrument_str = ('clarinet', 'obeo', 'flute', 'recorder', 'saxophone', 'brass',
 # Streamlit page configuration
 st.title('_Online Music Retailer Dashboard_')
 st.markdown('_**by Matt Schorr**_')
-st.markdown('**Please download the two datasets from my GitHub: :blue[(https://github.com/schma052/Online_Music_Retailer_Dashboard)]**')
+st.markdown('**Please download the two .csv datasets from my GitHub: :blue[(https://github.com/schma052/Online_Music_Retailer_Dashboard)]**')
 
 # File uploaders
 uploaded_file_sales = st.file_uploader("Upload CSV of Physical Sales (Weebly)", type='csv')

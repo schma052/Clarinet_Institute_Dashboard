@@ -844,7 +844,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         filtered_df = grouped_table
 
     # Display the DataFrame in Streamlit
-    st.markdown("**Customer :rainbow[Loyalty & RFM] Details for :rainbow[Targeted Advertising]**")
+    st.markdown("**Customer :rainbow[Loyalty & RFM] Details for :rainbow[Targeted Advertising]:**")
     st.dataframe(filtered_df)
 
 # Sales grouped by Email Unsub & Payment Type    
@@ -944,7 +944,7 @@ GROUP BY
 
         # Add titles and labels
         Fig.update_layout(
-            title='Digital Sales grouped by Email Status & Payment Type',
+            title='Digital Sales grouped by Email Status & Payment Type:',
             xaxis_title='',
             yaxis_title='Sum of Digital Sales',
             yaxis2=dict(

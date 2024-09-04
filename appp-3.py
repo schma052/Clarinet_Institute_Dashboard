@@ -7,6 +7,7 @@ from pandasql import sqldf
 from datetime import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import numpy as np
 
 
 # Set global font size for matplotlib

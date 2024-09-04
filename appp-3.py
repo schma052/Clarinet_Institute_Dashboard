@@ -656,7 +656,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                      x='Digital Release Date', 
                      y=y, 
                      color='Items',  # Different colors based on the item
-                     opacity=0.5,  # Scaled opacity
+                     opacity=0.6,  # Scaled opacity
                      labels={
                          'Digital Release Date': 'Release Date', 
                          'Quantity Sold': 'Quantity Sold',

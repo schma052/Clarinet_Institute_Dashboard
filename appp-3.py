@@ -638,6 +638,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
     # Apply a small positive constant to avoid log(0) issues
     small_constant = 1e-8
+
+    # Checkbox for logarithmic scale
+    use_log_scale = st.checkbox("Display Log of Quantity Sold")
     
     # Conditionally modify y-axis data
     if use_log_scale:
@@ -678,8 +681,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         hovermode='closest'  # Enhanced hover interactions
     )
     
-    # Checkbox for logarithmic scale
-    use_log_scale = st.checkbox("Display Log of Quantity Sold")
+
     # Display the plot in Streamlit
     st.plotly_chart(fig, use_container_width=True)
     # Displaying the result

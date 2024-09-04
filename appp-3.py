@@ -642,10 +642,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Displaying
     st.markdown("**Quantity Sold by Item & Release Date:**")
 
-    checkbox_placeholder = st.empty()
-
     # Logic for determining what to plot based on checkbox, still declared early
-    use_log_scale = checkbox_placeholder.checkbox("Display Log of Quantity Sold", value=False)
+    use_log_scale = st.checkbox("Display Log of Quantity Sold", value=False)
 
     if use_log_scale:
         summary_table_sorted['Log Quantity Sold'] = np.log(summary_table_sorted['Quantity Sold'] + small_constant)

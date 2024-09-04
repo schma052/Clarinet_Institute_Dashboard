@@ -635,13 +635,15 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     opacity_norm = (summary_table_sorted['Quantity Sold'] - summary_table_sorted['Quantity Sold'].min())/(summary_table_sorted['Quantity Sold'].max() - summary_table_sorted['Quantity Sold'].min())
     opacity_scaled = 0.2 + 0.8 * opacity_norm  # Scale opacity between 0.2 and 1
 
+    # Apply a small positive constant to avoid log(0) issues
+    small_constant = 1e-6
 
-     # Checkbox for logarithmic scale
+    # Checkbox for logarithmic scale
     use_log_scale = st.checkbox("Display logarithmic scale on Y-axis")
     
     # Conditionally modify y-axis data
     if use_log_scale:
-        summary_table_sorted['Log Quantity Sold'] = np.log(summary_table_sorted['Quantity Sold'])
+        summary_table_sorted['Log Quantity Sold'] = np.log(summary_table_sorted['Quantity Sold'] + small_constant)
         y = 'Log Quantity Sold'
         y_title = "Log of Quantity Sold to Date"
     else:

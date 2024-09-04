@@ -258,7 +258,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
         # Update layout to create a dual y-axis graph
         fig.update_layout(
-            title='Monthly Seasonality',
+            title='Monthly Seasonality:',
             xaxis_title='Month',
             yaxis=dict(
                 title='Total Sales',
@@ -326,7 +326,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
         # Update layout to create a dual y-axis graph
         fig.update_layout(
-            title='Daily Seasonality',
+            title='Daily Seasonality:',
             xaxis_title='Days',
             yaxis=dict(
                 title='Total Sales',
@@ -639,7 +639,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     small_constant = 1e-8
 
     # Logic for determining what to plot based on checkbox, still declared early
-    st.markdown("Quantity Sold by Item and Release Date")
+    st.markdown("**Quantity Sold by Item and Release Date:**")
     use_log_scale = st.checkbox("Display Log of Quantity Sold", value=False)
 
     if use_log_scale:

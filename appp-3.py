@@ -636,14 +636,13 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     opacity_norm = (summary_table_sorted['Quantity Sold'] - summary_table_sorted['Quantity Sold'].min())/(summary_table_sorted['Quantity Sold'].max() - summary_table_sorted['Quantity Sold'].min())
     opacity_scaled = 0.2 + 0.8 * opacity_norm  # Scale opacity between 0.2 and 1
 
-    # Apply a small positive constant to avoid log(0) issues
-    small_constant = 1e-8
-
-    # Checkbox for logarithmic scale
-    use_log_scale = st.checkbox("Display Log of Quantity Sold")
+    # Initialize session state for the checkbox if not already done
+    if 'use_log_scale' not in st.session_state:
+        st.session_state['use_log_scale'] = False
     
-    # Conditionally modify y-axis data
-    if use_log_scale:
+    # Create the plot before displaying the checkbox
+    small_constant = 1e-8
+    if st.session_state['use_log_scale']:
         summary_table_sorted['Log Quantity Sold'] = np.log(summary_table_sorted['Quantity Sold'] + small_constant)
         y = 'Log Quantity Sold'
         y_title = "Log of Quantity Sold to Date"
@@ -651,35 +650,22 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         y = 'Quantity Sold'
         y_title = "Quantity Sold to Date"
     
-    # Creating the scatter plot
     fig = px.scatter(summary_table_sorted, 
                      x='Digital Release Date', 
                      y=y, 
-                     color='Items',  # Different colors based on the item
-                     opacity=0.6,  # Scaled opacity
-                     labels={
-                         'Digital Release Date': 'Release Date', 
-                         'Quantity Sold': 'Quantity Sold',
-                         'Items': 'Items'
-                     },
+                     color='Items', 
+                     opacity=opacity_scaled,
                      title='Quantity Sold of Each Item by Earliest Digital Sale')
     
-    # Customize the chart appearance
-    fig.update_traces(textposition='top center', marker=dict(size=10))
-    fig.update_layout(
-        plot_bgcolor='white',  # White background color for plot
-        paper_bgcolor='white',  # White background color around the plot
-        showlegend=True,  # Show legend to identify items by color
-        xaxis_tickangle=0,  # Rotate labels for better readability
-        xaxis_title="",
-        yaxis_title=y_title,  # Dynamic y-axis title based on checkbox
-        font=dict(
-            family="Times New Roman",
-            size=12,
-            color="black"
-        ),
-        hovermode='closest'  # Enhanced hover interactions
-    )
+    fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', showlegend=True,
+                      xaxis_tickangle=0, xaxis_title="", yaxis_title=y_title,
+                      font=dict(family="Times New Roman", size=12, color="black"),
+                      hovermode='closest')
+    
+    st.plotly_chart(fig, use_container_width=True)
+    
+    # Checkbox displayed below the graph, updating the session state
+    st.checkbox("Display logarithmic scale on Y-axis", key='use_log_scale')
     
 
     # Display the plot in Streamlit

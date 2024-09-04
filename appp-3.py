@@ -636,41 +636,53 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     opacity_scaled = 0.2 + 0.8 * opacity_norm  # Scale opacity between 0.2 and 1
 
 
-    # Create the scatter plot with enhanced visualization settings
+     # Checkbox for logarithmic scale
+    use_log_scale = st.checkbox("Display logarithmic scale on Y-axis")
+    
+    # Conditionally modify y-axis data
+    if use_log_scale:
+        summary_table_sorted['Log Quantity Sold'] = np.log(summary_table_sorted['Quantity Sold'])
+        y = 'Log Quantity Sold'
+        y_title = "Log of Quantity Sold to Date"
+    else:
+        y = 'Quantity Sold'
+        y_title = "Quantity Sold to Date"
+    
+    # Creating the scatter plot
     fig = px.scatter(summary_table_sorted, 
                      x='Digital Release Date', 
-                     y='Quantity Sold', 
-                     color='Items',  # Assign different colors based on the item
-                     opacity=0.7,  # Apply scaled opacity directly using 'opacity_scaled'
+                     y=y, 
+                     color='Items',  # Different colors based on the item
+                     opacity=opacity_scaled,  # Scaled opacity
                      labels={
-                         'Release Date': 'Release Date', 
+                         'Digital Release Date': 'Release Date', 
                          'Quantity Sold': 'Quantity Sold',
-                         'Items': 'Items'  # This label is important for clarity
+                         'Items': 'Items'
                      },
                      title='Quantity Sold of Each Item by Earliest Digital Sale')
-
-    # Customize the appearance of the chart
+    
+    # Customize the chart appearance
     fig.update_traces(textposition='top center', marker=dict(size=10))
     fig.update_layout(
-        plot_bgcolor='white',  # Set plot background color to white
-        paper_bgcolor='white',  # Set the area around the plot to white
-        showlegend=False,  # Show legend to identify items by color
-        xaxis_tickangle=0,  # Rotate labels for better legibility
-        xaxis_title="",  # Optionally remove the x-axis title
-        yaxis_title="Quantity Sold to Date",  # Set y-axis title
+        plot_bgcolor='white',  # White background color for plot
+        paper_bgcolor='white',  # White background color around the plot
+        showlegend=True,  # Show legend to identify items by color
+        xaxis_tickangle=0,  # Rotate labels for better readability
+        xaxis_title="",
+        yaxis_title=y_title,  # Dynamic y-axis title based on checkbox
         font=dict(
-            family="Times New Roman",  # Set font family to Times New Roman
-            size=12,  # Set base font size
+            family="Times New Roman",
+            size=12,
             color="black"
         ),
-        hovermode='closest'  # Enhance hover interactions
+        hovermode='closest'  # Enhanced hover interactions
     )
-
+    
+    # Display the plot in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
     # Displaying the result
     st.markdown("**Item Popularity:**")
     st.dataframe(filtered_result)
-    # Display the plot in Streamlit
-    st.plotly_chart(fig, use_container_width=True)
     
     # Ensure the date is in datetime format for the future
     filtered_result['Date'] = pd.to_datetime(result['Date']) 

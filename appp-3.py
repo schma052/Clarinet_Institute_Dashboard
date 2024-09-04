@@ -637,8 +637,12 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     opacity_scaled = 0.2 + 0.8 * opacity_norm  # Scale opacity between 0.2 and 1
     small_constant = 1e-8
 
-    # Checkbox for logarithmic scale
-    use_log_scale = st.checkbox("Display Log of Quantity Sold")
+    # Create a placeholder for the checkbox early in the script
+    checkbox_placeholder = st.empty()
+
+    # Logic for determining what to plot based on checkbox, still declared early
+    use_log_scale = checkbox_placeholder.checkbox("Display Log of Quantity Sold", value=False)
+
     
     if use_log_scale:
         summary_table_sorted['Log Quantity Sold'] = np.log(summary_table_sorted['Quantity Sold'] + small_constant)
@@ -668,6 +672,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
     # Display the plot in Streamlit
     st.plotly_chart(fig, use_container_width=True)
+    # Visually display the checkbox under the graph by filling the placeholder
+    checkbox_placeholder.checkbox("Display Log of Quantity Sold", key='log_scale', value=use_log_scale)
     # Displaying the result
     st.markdown("**Item Popularity:**")
     st.dataframe(filtered_result)

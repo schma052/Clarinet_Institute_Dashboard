@@ -637,10 +637,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     opacity_scaled = 0.2 + 0.8 * opacity_norm  # Scale opacity between 0.2 and 1
 
     # Apply a small positive constant to avoid log(0) issues
-    small_constant = 1e-6
-
-    # Checkbox for logarithmic scale
-    use_log_scale = st.checkbox("Display Log of Quantity Sold")
+    small_constant = 1e-8
     
     # Conditionally modify y-axis data
     if use_log_scale:
@@ -656,7 +653,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                      x='Digital Release Date', 
                      y=y, 
                      color='Items',  # Different colors based on the item
-                     opacity=0.6,  # Scaled opacity
+                     opacity=0.5,  # Scaled opacity
                      labels={
                          'Digital Release Date': 'Release Date', 
                          'Quantity Sold': 'Quantity Sold',
@@ -681,6 +678,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         hovermode='closest'  # Enhanced hover interactions
     )
     
+    # Checkbox for logarithmic scale
+    use_log_scale = st.checkbox("Display Log of Quantity Sold")
     # Display the plot in Streamlit
     st.plotly_chart(fig, use_container_width=True)
     # Displaying the result

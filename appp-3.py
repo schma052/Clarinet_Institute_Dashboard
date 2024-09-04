@@ -498,6 +498,7 @@ GROUP BY Country, Day
         st.markdown(":red[Please select at least one instrument to display the chart.]")
     
     st.markdown(":blue[Advertising impact changes depending on the item, item type, and the country.]")
+    st.markdown(" ")
     
 # Table for Items 
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
@@ -638,12 +639,14 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     small_constant = 1e-8
 
     # Create a placeholder for the checkbox early in the script
+    # Displaying
+    st.markdown("**Quantity Sold by Item & Release Date:**")
+
     checkbox_placeholder = st.empty()
 
     # Logic for determining what to plot based on checkbox, still declared early
     use_log_scale = checkbox_placeholder.checkbox("Display Log of Quantity Sold", value=False)
 
-    
     if use_log_scale:
         summary_table_sorted['Log Quantity Sold'] = np.log(summary_table_sorted['Quantity Sold'] + small_constant)
         y = 'Log Quantity Sold'
@@ -659,7 +662,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                      color='Items', 
                      opacity= 0.6,
                      labels={'Digital Release Date': 'Release Date', 'Quantity Sold': 'Quantity Sold', 'Items': 'Items'},
-                     title='Quantity Sold of Each Item by Earliest Digital Sale')
+                     title='')
     
     # Customize the chart appearance
     fig.update_traces(textposition='top center', marker=dict(size=10))

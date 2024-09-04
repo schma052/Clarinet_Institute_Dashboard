@@ -4,3 +4,4 @@ matplotlib
 plotly
 pandasql
 statsmodels
+numpy

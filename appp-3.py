@@ -639,7 +639,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     small_constant = 1e-6
 
     # Checkbox for logarithmic scale
-    use_log_scale = st.checkbox("Display logarithmic scale on Y-axis")
+    use_log_scale = st.checkbox("Display Log of Quantity Sold")
     
     # Conditionally modify y-axis data
     if use_log_scale:
@@ -655,7 +655,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                      x='Digital Release Date', 
                      y=y, 
                      color='Items',  # Different colors based on the item
-                     opacity=opacity_scaled,  # Scaled opacity
+                     opacity=0.6,  # Scaled opacity
                      labels={
                          'Digital Release Date': 'Release Date', 
                          'Quantity Sold': 'Quantity Sold',

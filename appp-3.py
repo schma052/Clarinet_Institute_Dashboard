@@ -635,6 +635,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Normalize the data to range from 0.2 to 1 to ensure dots are visible but still reflect quantity differences
     opacity_norm = (summary_table_sorted['Quantity Sold'] - summary_table_sorted['Quantity Sold'].min())/(summary_table_sorted['Quantity Sold'].max() - summary_table_sorted['Quantity Sold'].min())
     opacity_scaled = 0.2 + 0.8 * opacity_norm  # Scale opacity between 0.2 and 1
+    small_constant = 1e-8
 
     # Checkbox for logarithmic scale
     use_log_scale = st.checkbox("Display Log of Quantity Sold")

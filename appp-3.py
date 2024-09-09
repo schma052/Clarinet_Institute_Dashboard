@@ -482,7 +482,7 @@ GROUP BY Country, Day
 
     # Show the bar chart if there is data to display
     if not filtered_data.empty:
-        st.bar_chart(filtered_data[['Day', 'Digital Net Revenue', 'Country']], x='Day', y='Digital Net Revenue', color=['Country'], stack=False, use_container_width=True)
+        st.bar_chart(filtered_data[['Day', 'Digital Net Revenue', 'Country']], x='Day', y='Digital Net Revenue', color='Country', stack=False, use_container_width=True)
     else:
         st.markdown("No data to display. Please adjust your selection.")
 

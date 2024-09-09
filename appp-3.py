@@ -434,38 +434,6 @@ GROUP BY Country, Day
 """
     cdr_df = pysqldf(dr_country_q)
     
-    # Display 
-    st.markdown("**Advertising Cycle in Different Countries:**")
-   
-    def get_deciles(dataframe):
-        # Group by both Country and Day, then calculate total digital net revenue
-        country_revenue_by_day = dataframe.groupby(['Country', 'Day'])['Digital Net Revenue'].sum().reset_index()
-
-        # Calculate decile rankings based on the summed revenue by country
-        total_revenue_by_country = country_revenue_by_day.groupby('Country')['Digital Net Revenue'].sum().reset_index()
-        total_revenue_by_country['Decile'] = pd.qcut(total_revenue_by_country['Digital Net Revenue'], 10, labels=[
-            'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'])
-
-        # Merge the deciles back into the country_revenue_by_day dataframe
-        detailed_revenue = country_revenue_by_day.merge(total_revenue_by_country[['Country', 'Decile']], on='Country',
-                                                        how='left')
-        return detailed_revenue
-
-    # Apply the function
-    country_deciles = get_deciles(cdr_df)
-
-    # Dropdown for selecting deciles
-    selected_decile = st.selectbox('Select Decile', ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'])
-
-    # Filter data based on selection
-    filtered_data = country_deciles[country_deciles['Decile'] == selected_decile]
-    if not filtered_data.empty:
-        st.bar_chart(filtered_data[['Day', 'Digital Net Revenue', 'Country']], x='Day', y='Digital Net Revenue', color='Country', stack=False, use_container_width=True)
-    else:
-        st.markdown("No data to display. Please adjust your selection.")
-    
-    
-    # Display 
    # Display Advertising Cycle in Different Countries
     st.markdown("**Advertising Cycle in Different Countries:**")
    

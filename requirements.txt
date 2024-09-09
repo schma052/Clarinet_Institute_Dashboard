@@ -5,5 +5,4 @@ plotly
 pandasql
 statsmodels
 numpy
-statsmodels
 scipy

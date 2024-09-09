@@ -8,6 +8,12 @@ from datetime import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from statsmodels.stats.stattools import durbin_watson
+from scipy.stats import shapiro
+from statsmodels.stats.diagnostic import het_breuschpagan
+from statsmodels.regression.linear_model import OLS
+from statsmodels.tools.tools import add_constant
 
 
 # Set global font size for matplotlib
@@ -1354,8 +1360,60 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Execute the query
     reg_df = pysqldf(sql_query)
+
+    data_daily = reg_df[['Day', 'Daily Total Sales']]
+    data_monthly = reg_df[['Month', 'Monthly Total Sales']]
+
+    # Assume 'Daily_Sales' is the dependent variable and the rest are independent variables
+    X_daily = add_constant(pd.get_dummies(data_daily['Day'].dt.day_name(), drop_first=True))
+    y_daily = data_daily['Daily Total Sales']
+    model_daily = OLS(y_daily, X_daily).fit()
     
+    X_monthly = add_constant(pd.get_dummies(data_monthly['Month'].dt.month_name(), drop_first=True))
+    y_monthly = data_monthly['Monthly Total Sales']
+    model_monthly = OLS(y_monthly, X_monthly).fit()
     
+    # Run and display diagnostics
+    def display_diagnostics(model, data, title):
+        st.write(f'### {title}')
+    
+        # Durbin-Watson Test
+        dw_stat = durbin_watson(model.resid)
+        st.write('**Durbin-Watson Test for Autocorrelation:**')
+        if dw_stat < 1.5:
+            st.write(f'Durbin-Watson Statistic: {dw_stat:.2f}')
+            st.write('Implication: Strong positive autocorrelation, suggesting a pattern where increases tend to follow increases.')
+        elif dw_stat > 2.5:
+            st.write(f'Durbin-Watson Statistic: {dw_stat:.2f}')
+            st.write('Implication: Strong negative autocorrelation, suggesting a pattern where increases tend to be followed by decreases.')
+        else:
+            st.write(f'Durbin-Watson Statistic: {dw_stat:.2f}')
+            st.write('Implication: Little to no autocorrelation, indicating no significant trends or cycles.')
+    
+    # Shapiro-Wilk Test
+    sw_stat, sw_p_value = shapiro(model.resid)
+    st.write('**Shapiro-Wilk Test for Normality of Residuals:**')
+    st.write(f'SW Statistic: {sw_stat:.3f}, SW P-value: {sw_p_value:.3f}')
+    st.write('Implication: ' + ('Residuals appear normally distributed.' if sw_p_value > 0.05 else 'Residuals may not be normally distributed.'))
+    
+    # Breusch-Pagan Test
+    bp_stat, bp_p_value, _, _ = het_breuschpagan(model.resid, model.model.exog)
+    st.write('**Breusch-Pagan Test for Homoscedasticity:**')
+    st.write(f'BP Statistic: {bp_stat:.3f}, BP P-value: {bp_p_value:.3f}')
+    st.write('Implication: ' + ('No significant heteroscedasticity.' if bp_p_value > 0.05 else 'Potential heteroscedasticity issues.'))
+    
+    # Variance Inflation Factor (VIF)
+    st.write('**Variance Inflation Factor (VIF) for Multicollinearity:**')
+    VIF_data = pd.DataFrame({
+        'feature': data.columns,
+        'VIF': [variance_inflation_factor(data.values, i) for i in range(data.shape[1])]
+    })
+    st.write(VIF_data)
+    st.write('Implication: Check VIF values, where > 10 indicates high multicollinearity and > 5 indicates moderate multicollinearity.')
+    
+    # Display diagnostics for each model
+    display_diagnostics(model_daily, X_daily, 'Daily Data Model Analysis')
+    display_diagnostics(model_monthly, X_monthly, 'Monthly Data Model Analysis')
 
     
         

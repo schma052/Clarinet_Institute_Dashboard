@@ -1309,7 +1309,7 @@ ORDER BY Date
 
 
 
-# Lets get to requirments and regressions     
+# Lets get to regressions     
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
     uploaded_file_sales.seek(0)

@@ -1316,28 +1316,28 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
     # Define a function to use pandasql
     pysqldf = lambda q: sqldf(q, globals())
-        # SQL query adjusted for pandasql
-        sqlquery = """
+    # SQL query adjusted for pandasql
+    sqlquery = """
         SELECT *,
-            SUM(`Digital Sales`) AS `Monthly Digital Sales`,
-            SUM(`Physical Sales`) AS `Monthly Physical Sales`,
-            SUM(`Sales`) AS `Monthly Sales`
+        SUM(`Digital Sales`) AS `Monthly Digital Sales`,
+        SUM(`Physical Sales`) AS `Monthly Physical Sales`,
+        SUM(`Sales`) AS `Monthly Sales`
         FROM
-            merged_df
+        merged_df
         GROUP BY
-            strftime('%Y', Date),
-            strftime('%m', Date)
+        strftime('%Y', Date),
+        strftime('%m', Date)
         ORDER BY
-            strftime('%Y', Date),
-            strftime('%m', Date)
+        strftime('%Y', Date),
+        strftime('%m', Date)
         """
         
-        # Execute the query
-        merged_df = pysqldf(sqlquery)
+    # Execute the query
+    merged_df = pysqldf(sqlquery)
 
 
-        #Display
-        st.dataframe(merged_df)
+    #Display
+    st.dataframe(merged_df)
     
         
 

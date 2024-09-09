@@ -1361,6 +1361,11 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Execute the query
     reg_df = pysqldf(sql_query)
 
+    # Convert 'Day' to datetime to ensure correct type for .dt accessor
+    reg_df['Day'] = pd.to_datetime(reg_df['Day'])
+    # Convert 'Month' to the first day of each month in datetime format
+    reg_df['Month'] = pd.to_datetime(reg_df['Month'] + '-01')
+
     data_daily = reg_df[['Day', 'Daily Total Sales']]
     data_monthly = reg_df[['Month', 'Monthly Total Sales']]
 

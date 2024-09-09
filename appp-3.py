@@ -1353,10 +1353,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     """
     
     # Execute the query
-    final_df = pysqldf(sql_query)
+    reg_df = pysqldf(sql_query)
     
-    # Display in Streamlit
-    st.dataframe(final_df)
+
 
     
         

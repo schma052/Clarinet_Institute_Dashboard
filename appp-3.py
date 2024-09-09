@@ -1306,9 +1306,38 @@ ORDER BY Date
     # Display the bar chart with the selected columns
     st.bar_chart(Q_df[columns_to_display], stack=False)
     st.markdown(":blue[Europeans are unsubscribing. Marketing strategies are being re-designed to boost European engagement.]")
-    
-    
-    
+
+
+
+# Lets get to requirments and regressions     
+if uploaded_file_sales is not None and uploaded_file_customer is not None:
+    uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
+    uploaded_file_sales.seek(0)
+
+    # Define a function to use pandasql
+    pysqldf = lambda q: sqldf(q, globals())
+        # SQL query adjusted for pandasql
+        sqlquery = """
+        SELECT *,
+            SUM(`Digital Sales`) AS `Monthly Digital Sales`,
+            SUM(`Physical Sales`) AS `Monthly Physical Sales`,
+            SUM(`Sales`) AS `Monthly Sales`
+        FROM
+            merged_df
+        GROUP BY
+            strftime('%Y', Date),
+            strftime('%m', Date)
+        ORDER BY
+            strftime('%Y', Date),
+            strftime('%m', Date)
+        """
+        
+        # Execute the query
+        merged_df = pysqldf(sqlquery)
+
+
+        #Display
+        st.dataframe(merged_df)
     
         
 

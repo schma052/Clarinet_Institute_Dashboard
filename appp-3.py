@@ -1328,12 +1328,12 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     SELECT 
         a.`Day`,
         a.`Month`,
-        a.`Digital Sales`,
-        a.`Physical Sales`,
-        a.`Daily Total Sales`,
-        b.`Monthly Digital Sales`,
-        b.`Monthly Physical Sales`,
-        b.`Monthly Total Sales`
+        CAST(a.`Digital Sales` AS FLOAT) AS `Digital Sales`,
+        CAST(a.`Physical Sales` AS FLOAT) AS `Physical Sales`,
+        CAST(a.`Daily Total Sales` AS FLOAT) AS `Daily Total Sales`,
+        CAST(b.`Monthly Digital Sales` AS FLOAT) AS `Monthly Digital Sales`,
+        CAST(b.`Monthly Physical Sales` AS FLOAT) AS `Monthly Physical Sales`,
+        CAST(b.`Monthly Total Sales` AS FLOAT) AS `Monthly Total Sales`
     FROM 
         (SELECT 
             strftime('%Y-%m-%d', Date) AS `Day`,

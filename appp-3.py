@@ -1354,8 +1354,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Execute the query
     reg_df = pysqldf(sql_query)
+    st.dataframe(red_df)
     
-
 
     
         

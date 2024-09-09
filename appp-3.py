@@ -1363,18 +1363,16 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
     # Convert 'Day' to datetime to ensure correct type for .dt accessor
     reg_df['Day'] = pd.to_datetime(reg_df['Day'])
-    # Convert 'Month' to the first day of each month in datetime format
-    reg_df['Month'] = pd.to_datetime(reg_df['Month'] + '-01')
 
     data_daily = reg_df[['Day', 'Daily Total Sales']]
-    data_monthly = reg_df[['Month', 'Monthly Total Sales']]
+    data_monthly = reg_df[['Day', 'Monthly Total Sales']]
 
     # Assume 'Daily_Sales' is the dependent variable and the rest are independent variables
     X_daily = add_constant(pd.get_dummies(data_daily['Day'].dt.day_name(), drop_first=True))
     y_daily = data_daily['Daily Total Sales']
     model_daily = OLS(y_daily, X_daily).fit()
     
-    X_monthly = add_constant(pd.get_dummies(data_monthly['Month'].dt.month_name(), drop_first=True))
+    X_monthly = add_constant(pd.get_dummies(data_monthly['Day'].dt.month_name(), drop_first=True))
     y_monthly = data_monthly['Monthly Total Sales']
     model_monthly = OLS(y_monthly, X_monthly).fit()
     

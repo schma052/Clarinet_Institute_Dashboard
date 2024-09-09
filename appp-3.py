@@ -466,19 +466,68 @@ GROUP BY Country, Day
     
     
     # Display 
+   # Display Advertising Cycle in Different Countries
+    st.markdown("**Advertising Cycle in Different Countries:**")
+   
+    # Define the function to filter countries with sales on every day of the week
+    def get_countries_with_sales_every_day(dataframe):
+        # Group by both Country and Day, then calculate total digital net revenue
+        country_sales_by_day = dataframe.groupby(['Country', 'Day'])['Digital Net Revenue'].sum().reset_index()
+
+        # Check if each country has sales for all 7 days (from 0 to 6)
+        countries_with_full_week_sales = country_sales_by_day.groupby('Country')['Day'].nunique().reset_index()
+        countries_with_full_week_sales = countries_with_full_week_sales[countries_with_full_week_sales['Day'] == 7]
+
+        # Filter the original dataframe to include only these countries
+        filtered_dataframe = dataframe[dataframe['Country'].isin(countries_with_full_week_sales['Country'])]
+        return filtered_dataframe
+
+    # Define the function for calculating deciles
+    def get_deciles(dataframe):
+        # Group by both Country and Day, then calculate total digital net revenue
+        country_revenue_by_day = dataframe.groupby(['Country', 'Day'])['Digital Net Revenue'].sum().reset_index()
+
+        # Calculate decile rankings based on the summed revenue by country
+        total_revenue_by_country = country_revenue_by_day.groupby('Country')['Digital Net Revenue'].sum().reset_index()
+        total_revenue_by_country['Decile'] = pd.qcut(total_revenue_by_country['Digital Net Revenue'], 10, labels=[
+            'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'])
+
+        # Merge the deciles back into the country_revenue_by_day dataframe
+        detailed_revenue = country_revenue_by_day.merge(total_revenue_by_country[['Country', 'Decile']], on='Country',
+                                                        how='left')
+        return detailed_revenue
+
+    # Apply the filtering function to limit countries that have sold items every day of the week
+    filtered_cdr_df = get_countries_with_sales_every_day(cdr_df)
+
+    # Apply the deciles function to the filtered data
+    country_deciles = get_deciles(filtered_cdr_df)
+
+    # Dropdown for selecting deciles
+    selected_decile = st.selectbox('Select Decile', ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'])
+
+    # Filter data based on selection
+    filtered_data = country_deciles[country_deciles['Decile'] == selected_decile]
+
+    # Show the bar chart if there is data to display
+    if not filtered_data.empty:
+        st.bar_chart(filtered_data[['Day', 'Digital Net Revenue', 'Country']], x='Day', y='Digital Net Revenue', color='Country', stack=False, use_container_width=True)
+    else:
+        st.markdown("No data to display. Please adjust your selection.")
+
+    # Display Items Through Advertising Cycle
     st.write("**Items Through Advertising Cycle:**")
-            
-        # First, set the 'Day' column as the index if it's not already
+
+    # First, set the 'Day' column as the index if it's not already
     if 'Day' not in dkw_df.columns:
         dkw_df = dkw_df.set_index('Day')
 
     # List of all possible instruments
-    instruments = ['clarinet', 'oboe', 'flute', 'recorder', 'saxophone', 'brass', 
-                   'trumpet', 'bassoon', 'frenchhorn', 'woodwind', 'tuba', 'euphonium', 
+    instruments = ['clarinet', 'oboe', 'flute', 'recorder', 'saxophone', 'brass',
+                   'trumpet', 'bassoon', 'frenchhorn', 'woodwind', 'tuba', 'euphonium',
                    'soundfiles', 'string']
 
     # Number of columns to display checkboxes in a single row
-    # Adjust the number of columns based on the actual application layout or screen size
     num_columns = 5  # You can adjust this number based on your preference or screen size
     columns = st.columns(num_columns)
 
@@ -496,7 +545,7 @@ GROUP BY Country, Day
         st.bar_chart(dkw_df[selected_columns], stack=False)
     else:
         st.markdown(":red[Please select at least one instrument to display the chart.]")
-    
+
     st.markdown(":blue[Advertising impact changes depending on the item, item type, and the country.]")
     st.markdown(" ")
     

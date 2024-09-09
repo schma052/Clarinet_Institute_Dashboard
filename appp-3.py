@@ -1326,54 +1326,34 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # SQL query for combined daily and static monthly totals
     sql_query = """
     SELECT 
-        a.`Day`,
-        a.`Month`,
-        CAST(a.`Digital Sales` AS FLOAT) AS `Digital Sales`,
-        CAST(a.`Physical Sales` AS FLOAT) AS `Physical Sales`,
-        CAST(a.`Daily Total Sales` AS FLOAT) AS `Daily Total Sales`,
-        CAST(b.`Monthly Digital Sales` AS FLOAT) AS `Monthly Digital Sales`,
-        CAST(b.`Monthly Physical Sales` AS FLOAT) AS `Monthly Physical Sales`,
-        CAST(b.`Monthly Total Sales` AS FLOAT) AS `Monthly Total Sales`
+        a.`Date`,
+        a.`Sales`,
+        b.`Total Sales`
+        b.Date
     FROM 
-        (SELECT 
-            strftime('%Y-%m-%d', Date) AS `Day`,
-            strftime('%Y-%m', Date) AS `Month`,
-            `Digital Sales`,
-            `Physical Sales`,
-            (`Digital Sales` + `Physical Sales`) AS `Daily Total Sales`
-         FROM 
-            merged_df) a
-    JOIN 
-        (SELECT 
-            strftime('%Y-%m', Date) AS `Month`,
-            SUM(`Digital Sales`) AS `Monthly Digital Sales`,
-            SUM(`Physical Sales`) AS `Monthly Physical Sales`,
-            SUM(`Digital Sales` + `Physical Sales`) AS `Monthly Total Sales`
-         FROM 
-            merged_df
-         GROUP BY 
-            strftime('%Y-%m', Date)) b
-    ON a.`Month` = b.`Month`
+        merged_df a, 
+        Merged_df b
+    ON a.`Date` = b.`Date`
     ORDER BY 
-        a.`Day`
+        a.`Date`
     """
     
     # Execute the query
     reg_df = pysqldf(sql_query)
 
     # Convert 'Day' to datetime to ensure correct type for .dt accessor
-    reg_df['Day'] = pd.to_datetime(reg_df['Day'])
+    reg_df['Date'] = pd.to_datetime(reg_df['Date'])
 
-    data_daily = reg_df[['Day', 'Daily Total Sales']]
-    data_monthly = reg_df[['Day', 'Monthly Total Sales']]
+    data_daily = reg_df[['Date', 'Sales']]
+    data_monthly = reg_df[['Date', 'Total Sales']]
 
     # Assume 'Daily_Sales' is the dependent variable and the rest are independent variables
-    X_daily = add_constant(pd.get_dummies(data_daily['Day'].dt.day_name(), drop_first=True))
-    y_daily = data_daily['Daily Total Sales']
+    X_daily = add_constant(pd.get_dummies(data_daily['Date'].dt.day_name(), drop_first=True))
+    y_daily = data_daily['Sales']
     model_daily = OLS(y_daily, X_daily).fit()
     
-    X_monthly = add_constant(pd.get_dummies(data_monthly['Day'].dt.month_name(), drop_first=True))
-    y_monthly = data_monthly['Monthly Total Sales']
+    X_monthly = add_constant(pd.get_dummies(data_monthly['Date'].dt.month_name(), drop_first=True))
+    y_monthly = data_monthly['Total Sales']
     model_monthly = OLS(y_monthly, X_monthly).fit()
     
     # Run and display diagnostics

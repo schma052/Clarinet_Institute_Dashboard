@@ -475,7 +475,7 @@ GROUP BY Country, Day
     country_deciles = get_deciles(filtered_cdr_df)
 
     # Dropdown for selecting deciles
-    selected_decile = st.selectbox('Select Decile', ['Q1', 'Q2', 'Q3', 'Q4', 'Q5'])
+    selected_decile = st.selectbox('Select Quintile', ['Q1', 'Q2', 'Q3', 'Q4', 'Q5'])
 
     # Filter data based on selection
     filtered_data = country_deciles[country_deciles['Quintile'] == selected_decile]

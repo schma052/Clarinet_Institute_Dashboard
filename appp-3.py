@@ -447,7 +447,7 @@ GROUP BY Country, Day
 
         # Check if each country has sales for all 7 days (from 0 to 6)
         countries_with_full_week_sales = country_sales_by_day.groupby('Country')['Day'].nunique().reset_index()
-        countries_with_full_week_sales = countries_with_full_week_sales[countries_with_full_week_sales['Day'] == 7]
+        countries_with_full_week_sales = countries_with_full_week_sales[countries_with_full_week_sales['Day'] == 5]
 
         # Filter the original dataframe to include only these countries
         filtered_dataframe = dataframe[dataframe['Country'].isin(countries_with_full_week_sales['Country'])]

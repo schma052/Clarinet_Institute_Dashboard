@@ -1314,30 +1314,50 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
     uploaded_file_sales.seek(0)
 
-    # Define a function to use pandasql
+    # Define the function to use pandasql
     pysqldf = lambda q: sqldf(q, globals())
-    # SQL query adjusted for pandasql
-    sqlquery = """
-        SELECT *,
-        SUM(`Digital Sales`) AS `Monthly Digital Sales`,
-        SUM(`Physical Sales`) AS `Monthly Physical Sales`,
-        SUM(`Sales`) AS `Monthly Sales`
-        FROM
-        merged_df
-        GROUP BY
-        strftime('%Y', Date),
-        strftime('%m', Date)
-        ORDER BY
-        strftime('%Y', Date),
-        strftime('%m', Date)
-        """
-        
+    
+    # SQL query for combined daily and static monthly totals
+    sql_query = """
+    SELECT 
+        a.`Day`,
+        a.`Month`,
+        a.`Digital Sales`,
+        a.`Physical Sales`,
+        a.`Daily Total Sales`,
+        b.`Monthly Digital Sales`,
+        b.`Monthly Physical Sales`,
+        b.`Monthly Total Sales`
+    FROM 
+        (SELECT 
+            strftime('%Y-%m-%d', Date) AS `Day`,
+            strftime('%Y-%m', Date) AS `Month`,
+            `Digital Sales`,
+            `Physical Sales`,
+            (`Digital Sales` + `Physical Sales`) AS `Daily Total Sales`
+         FROM 
+            merged_df) a
+    JOIN 
+        (SELECT 
+            strftime('%Y-%m', Date) AS `Month`,
+            SUM(`Digital Sales`) AS `Monthly Digital Sales`,
+            SUM(`Physical Sales`) AS `Monthly Physical Sales`,
+            SUM(`Digital Sales` + `Physical Sales`) AS `Monthly Total Sales`
+         FROM 
+            merged_df
+         GROUP BY 
+            strftime('%Y-%m', Date)) b
+    ON a.`Month` = b.`Month`
+    ORDER BY 
+        a.`Day`
+    """
+    
     # Execute the query
-    merged_df = pysqldf(sqlquery)
+    final_df = pysqldf(sql_query)
+    
+    # Display in Streamlit
+    st.dataframe(final_df)
 
-
-    #Display
-    st.dataframe(merged_df)
     
         
 

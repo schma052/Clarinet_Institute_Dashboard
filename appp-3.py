@@ -14,7 +14,10 @@ import numpy as np
 plt.rcParams.update({'font.size': 13})  # You can adjust the size here as needed
 
 # Givens
-instrument_str = ('clarinet', 'obeo', 'flute', 'recorder', 'saxophone', 'brass', 'trumpet]', 'bassoon', 'frenchhorn', 'woodwind', 'tuba', 'euphonium', 'soundfiles', 'string')
+    # List of all possible instruments
+instruments = ['clarinet', 'oboe', 'flute', 'recorder', 'saxophone', 'brass',
+                'trumpet', 'bassoon', 'frenchhorn', 'woodwind', 'tuba', 'euphonium',
+                'soundfiles', 'string']
 
 # Streamlit page configuration
 st.title('_Online Music Retailer Dashboard_')
@@ -457,11 +460,11 @@ GROUP BY Country, Day
 
         # Calculate decile rankings based on the summed revenue by country
         total_revenue_by_country = country_revenue_by_day.groupby('Country')['Digital Net Revenue'].sum().reset_index()
-        total_revenue_by_country['Decile'] = pd.qcut(total_revenue_by_country['Digital Net Revenue'], 10, labels=[
-            'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'])
+        total_revenue_by_country['Quintile'] = pd.qcut(total_revenue_by_country['Digital Net Revenue'], 5, labels=[
+            'Q1', 'Q2', 'Q3', 'Q4', 'Q5'])
 
         # Merge the deciles back into the country_revenue_by_day dataframe
-        detailed_revenue = country_revenue_by_day.merge(total_revenue_by_country[['Country', 'Decile']], on='Country',
+        detailed_revenue = country_revenue_by_day.merge(total_revenue_by_country[['Country', 'Quintile']], on='Country',
                                                         how='left')
         return detailed_revenue
 
@@ -472,10 +475,10 @@ GROUP BY Country, Day
     country_deciles = get_deciles(filtered_cdr_df)
 
     # Dropdown for selecting deciles
-    selected_decile = st.selectbox('Select Decile', ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'])
+    selected_decile = st.selectbox('Select Decile', ['Q1', 'Q2', 'Q3', 'Q4', 'Q5'])
 
     # Filter data based on selection
-    filtered_data = country_deciles[country_deciles['Decile'] == selected_decile]
+    filtered_data = country_deciles[country_deciles['Quintile'] == selected_decile]
 
     # Show the bar chart if there is data to display
     if not filtered_data.empty:
@@ -489,11 +492,6 @@ GROUP BY Country, Day
     # First, set the 'Day' column as the index if it's not already
     if 'Day' not in dkw_df.columns:
         dkw_df = dkw_df.set_index('Day')
-
-    # List of all possible instruments
-    instruments = ['clarinet', 'oboe', 'flute', 'recorder', 'saxophone', 'brass',
-                   'trumpet', 'bassoon', 'frenchhorn', 'woodwind', 'tuba', 'euphonium',
-                   'soundfiles', 'string']
 
     # Number of columns to display checkboxes in a single row
     num_columns = 5  # You can adjust this number based on your preference or screen size

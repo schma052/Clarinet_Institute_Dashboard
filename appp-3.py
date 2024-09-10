@@ -909,7 +909,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     upper_limit = 8  # Example upper limit
     
     # Fit the Tobit model
-    tobit_model = Tobit(y, X_with_const)
+    tobit_model = Tobit(y, X)
     tobit_results = tobit_model.fit()
     
     # Print the results summary

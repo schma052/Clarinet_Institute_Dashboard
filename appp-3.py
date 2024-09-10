@@ -910,39 +910,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     X = X.values  # Converts X to a NumPy array
     y = y.values  # Converts y to a NumPy array
 
-    class TobitModel:
-        def __init__(self, left_censored, right_censored, left_limit=None, right_limit=None):
-            self.left_censored = left_censored
-            self.right_censored = right_censored
-            self.left_limit = left_limit
-            self.right_limit = right_limit
-    
-        def _ll_obs(self, params, y, X):
-            beta = params[:-1]
-            sigma = params[-1]
-            xb = np.dot(X, beta)
-    
-            if sigma <= 0:
-                return -np.inf  # log-likelihood penalty for non-positive sigma
-    
-            ll_censored_left = norm.logcdf((self.left_limit - xb) / sigma)
-            ll_censored_right = norm.logsf((self.right_limit - xb) / sigma)
-            ll_uncensored = norm.logpdf((y - xb) / sigma)
-    
-            ll_obs = np.where(y <= self.left_limit, ll_censored_left, ll_uncensored)
-            ll_obs = np.where(y >= self.right_limit, ll_censored_right, ll_obs)
-            
-            return ll_obs
-    
-        def fit(self, y, X):
-            X = sm.add_constant(X)  # Adds an intercept to the model
-            params0 = np.append(np.zeros(X.shape[1]), 1)  # Initial parameter guesses
-            results = minimize(lambda params: -np.sum(self._ll_obs(params, y, X)), params0, method='L-BFGS-B')
-            return results
-
-    
-    model = TobitModel(left_censored=True, right_censored=True, left_limit=2, right_limit=8)
-    results = model.fit(y, X)
+st.dataframe(X)
+st.dataframe(y)
     
 
 # Sales grouped by Email Unsub & Payment Type    

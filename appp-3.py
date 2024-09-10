@@ -902,38 +902,14 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     X = X.values  # Converts X to a NumPy array
     y = y.values  # Converts y to a NumPy array
 
-    class TobitModel:
-        def __init__(self, lower_limit, upper_limit):
-            self.lower_limit = lower_limit
-            self.upper_limit = upper_limit
-    
-        def fit(self, X, y):
-            # Fit the Tobit model using statsmodels
-            model = Tobit(y, X, left=self.lower_limit, right=self.upper_limit)
-            self.results = model.fit()
-    
-        def predict(self, X):
-            # Predict new data using the fitted model
-            predicted = self.results.predict(X)
-            return np.clip(predicted, self.lower_limit, self.upper_limit)
-
     # Initialize model with the correct lower and upper limits for censoring
     lower_limit = 2  # Example lower limit
     upper_limit = 8  # Example upper limit
-    model = TobitModel(lower_limit, upper_limit)
-    
-    # Fit the model to your preprocessed data
-    # X and y should be defined outside this script, based on your preprocessing
-    model.fit(X, y)
-    
-    # Print model summary
-    print(model.results.summary())
-    
-    # Predict on new data (new_X should be a new set of features in the same format as X)
-    new_X = np.array([[0, 1, 0, 1, ..., 1]])  # Replace with actual data for prediction
-    predictions = model.predict(new_X)
+    # Assuming X and y are your preprocessed data
+    model = Tobit(y, X, c_lw=lower_limit, c_up=upper_limit)
+    results = model.fit()
 
-    st.markdown("Predictions:", predictions)
+    st.markdown("Predictions:", results.summary())
 
 
 

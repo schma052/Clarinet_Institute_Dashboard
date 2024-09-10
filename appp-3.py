@@ -9,6 +9,8 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import statsmodels.api as sm
+from statsmodels.base.model import GenericLikelihoodModel
+from scipy.stats import norm
 
 
 
@@ -919,7 +921,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         if encoded_data[column].dtype == 'bool':
             encoded_data[column] = encoded_data[column].astype(int)
 
-    class DoubleCensoredTobit(sm.base.model.GenericLikelihoodModel):
+    class DoubleCensoredTobit(GenericLikelihoodModel):
         def __init__(self, endog, exog, left=0, right=np.inf):
             super(DoubleCensoredTobit, self).__init__(endog, exog)
             self.left = left
@@ -933,11 +935,11 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
             # Likelihood for uncensored observations
             ll_obs = -(self.endog - xb)**2 / (2 * sigma**2) - np.log(sigma * np.sqrt(2 * np.pi))
             
-            # Likelihood for left-censored observations
-            ll_left = np.log(sm.stats.norm.cdf((self.left - xb) / sigma))
+            # Likelihood for left-censored observations (using scipy.stats.norm)
+            ll_left = np.log(norm.cdf((self.left - xb) / sigma))
             
-            # Likelihood for right-censored observations
-            ll_right = np.log(1 - sm.stats.norm.cdf((self.right - xb) / sigma))
+            # Likelihood for right-censored observations (using scipy.stats.norm)
+            ll_right = np.log(1 - norm.cdf((self.right - xb) / sigma))
             
             # Combine contributions based on censoring
             is_left_censored = self.endog <= self.left
@@ -956,13 +958,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
             return super(DoubleCensoredTobit, self).fit(start_params=start_params,
                                                         maxiter=maxiter, maxfun=maxfun, **kwds)
-    
-    # Set your censoring points
-    left_censoring_point = 2  # Modify as needed
-    right_censoring_point = 8  # Modify as needed
-    
-    # Create and fit the model
-    model = DoubleCensoredTobit(y, X, left=left_censoring_point, right=right_censoring_point)
+
+        # Create and fit the model
+    model = DoubleCensoredTobit(y, X, left=0, right=10)
     result = model.fit()
 
     # Display 

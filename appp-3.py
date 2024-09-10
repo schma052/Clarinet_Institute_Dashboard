@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import statsmodels.api as sm
-import py4etrics
+
 
 
 # Set global font size for matplotlib
@@ -911,12 +911,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Add constant (intercept) to X
     X_with_const = sm.add_constant(X)
     
-    # Fit the Tobit model
-    tobit_model = Tobit(y, X_with_const)
-    tobit_results = tobit_model.fit()
-    
-    # Print the results summary
-    st.text(tobit_results.summary())
+
 
 
 # Sales grouped by Email Unsub & Payment Type    

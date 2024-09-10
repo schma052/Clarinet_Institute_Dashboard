@@ -885,7 +885,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Step 6: Split the Keywords column into individual keywords
     # Ensure consistent splitting by replacing any spaces after commas
     data['Keywords'] = data['Keywords'].str.replace(", ", ",")
-    keywords_split = data['Keywords'].str.get_dummies(sep=',')
+    keywords_split = data['Keywords'].str.get_dummies(sep=',', drop_first=True)
     
     # Step 7: Perform one-hot encoding for other categorical variables (Email Status and Payment Type)
     other_dummies = pd.get_dummies(data[['Email Status', 'Payment Type']], drop_first=True)
@@ -911,7 +911,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Add constant (intercept) to X
     X_with_const = sm.add_constant(X)
     
-
+    st.dataframe(encoded_data)
 
 
 # Sales grouped by Email Unsub & Payment Type    

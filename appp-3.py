@@ -885,7 +885,11 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Step 6: Split the Keywords column into individual keywords
     # Ensure consistent splitting by replacing any spaces after commas
     data['Keywords'] = data['Keywords'].str.replace(", ", ",")
-    keywords_split = data['Keywords'].str.get_dummies(sep=',', drop_first=True)
+    keywords_split = data['Keywords'].str.get_dummies(sep=',')
+
+    # Manually drop the first column to avoid multicollinearity
+    if not keywords_split.empty:
+        keywords_split = keywords_split.iloc[:, 1:]
     
     # Step 7: Perform one-hot encoding for other categorical variables (Email Status and Payment Type)
     other_dummies = pd.get_dummies(data[['Email Status', 'Payment Type']], drop_first=True)

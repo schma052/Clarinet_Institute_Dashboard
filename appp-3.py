@@ -871,8 +871,6 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Step 1: Calculate the Combined MF Score (Monetary + Frequency Score)
     data = filtered_df
     data['MF Score'] = data['Monetary Score'] + data['Frequency Score']
-    data['Spender'] = np.where(data['MF Score'] > 2, 1, 0)
-    data = data.drop(columns=['MF Score'])
     
     # Step 2: Find the top 10 most common countries
     top_10_countries = data['Country'].value_counts().nlargest(10).index
@@ -904,14 +902,18 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Step 9: Drop unnecessary columns like 'Email Status', 'Payment Type', 'Keywords'
     encoded_data = encoded_data.drop(columns=['Email Status', 'Payment Type', 'Keywords'])
     
-    # 1. Set y (the dependent variable) as the 'Spender' column
-    y = encoded_data['Spender']
-    # 2. Set X (the independent variables) as all columns except 'Spender'
-    X = encoded_data.drop(columns=['Spender', 'Monetary Score', 'Recency Score', 'Frequency Score', 'Email', 'Loyalty Score'])
+    # 1. Set y (the dependent variable) as the 'MF Score' column
+    y = encoded_data['MF Score']
+    # 2. Set X (the independent variables) as all columns except 'MF Score'
+    X = encoded_data.drop(columns=['MF Score', 'Monetary Score', 'Recency Score', 'Frequency Score', 'Email', 'Loyalty Score'])
     # Optionally convert X and y to numpy arrays if required by the model
     #X = X.values  # Converts X to a NumPy array
     #y = y.values  # Converts y to a NumPy array
 
+    # Convert boolean columns to integers
+    for column in encoded_data.columns:
+        if encoded_data[column].dtype == 'bool':
+            encoded_data[column] = encoded_data[column].astype(int)
     st.write(X)
     st.write(y)
 

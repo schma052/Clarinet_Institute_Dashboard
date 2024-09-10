@@ -10,7 +10,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 from scipy.stats import norm
 import statsmodels.api as sm
-from statsmodels.miscmodels.regression import Tobit
+from statsmodels.discrete.discrete_model import Tobit
 
 # Set global font size for matplotlib
 plt.rcParams.update({'font.size': 13})  # You can adjust the size here as needed

@@ -6,4 +6,4 @@ pandasql
 statsmodels
 numpy
 scipy
-py4etrics
+

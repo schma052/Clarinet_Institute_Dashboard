@@ -914,9 +914,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     tobit_model = Tobit(y, X_with_const)
     tobit_results = tobit_model.fit()
     
-    # Print the results summary
-    st.markdown("Predictions:") 
-    print(tobit_results.summary())
+
 
 
 # Sales grouped by Email Unsub & Payment Type    

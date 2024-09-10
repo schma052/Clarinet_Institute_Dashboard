@@ -872,7 +872,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     encoded_data = pd.get_dummies(data[['Keywords', 'Email Status', 'Country', 'Payment Type']], drop_first=True)
     
     # Step 3: Add the Combined MF Score to the encoded dataframe
-    encoded_data['Combined MF Score'] = data['Combined MF Score']
+    encoded_data['MF Score'] = data['MF Score']
 
     st.dataframe(encoded_data)
 

@@ -8,9 +8,7 @@ from datetime import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
-from scipy.stats import norm
-import statsmodels.api as sm
-from statsmodels.discrete.discrete_model import Tobit
+from py4etrics import Tobit
 
 # Set global font size for matplotlib
 plt.rcParams.update({'font.size': 13})  # You can adjust the size here as needed

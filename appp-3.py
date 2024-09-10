@@ -867,39 +867,36 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # find me f key
     # Step 1: Calculate the Combined MF Score (Monetary + Frequency Score)
     data = filtered_df
-
-    # Step 1: Find the top 10 most common countries
+    data['MF Score'] = data['Monetary Score'] + data['Frequency Score']
+    
+    # Step 2: Find the top 10 most common countries
     top_10_countries = data['Country'].value_counts().nlargest(10).index
     
-    # Step 2: Create a new column 'Country_Grouped' where countries outside the top 10 are labeled as 'RoW'
+    # Step 3: Create a new column 'Country_Grouped' where countries outside the top 10 are labeled as 'RoW'
     data['Country_Grouped'] = data['Country'].apply(lambda x: x if x in top_10_countries else 'RoW')
     
-    # Step 3: One-hot encode the top 10 countries and 'RoW'
-    country_dummies = pd.get_dummies(data['Country_Grouped'], drop_first=False)  # Don't drop any columns
+    # Step 4: One-hot encode the top 10 countries and 'RoW'
+    country_dummies = pd.get_dummies(data['Country_Grouped'], drop_first=True)  
     
-    # Step 4: Drop the original 'Country' and 'Country_Grouped' columns (if no longer needed)
+    # Step 5: Drop the original 'Country' and 'Country_Grouped' columns (if no longer needed)
     data = data.drop(columns=['Country', 'Country_Grouped'])
     
-    # Step 5: Combine the new encoded country columns with the rest of your data
-    encoded_data = pd.concat([data, country_dummies], axis=1)
-    # Step 1: Split the Keywords column into individual keywords
-    # We'll first replace any spaces after commas to ensure consistent splitting
-    encoded_data['Keywords'] = encoded_data['Keywords'].str.replace(", ", ",")
-    #data['Keywords'] = data['Keywords'].str.replace(" ,", ",")
-    # Then split the keywords and create dummy variables for each unique keyword
-    keywords_split = encoded_data['Keywords'].str.get_dummies(sep=',')
+    # Step 6: Split the Keywords column into individual keywords
+    # Ensure consistent splitting by replacing any spaces after commas
+    data['Keywords'] = data['Keywords'].str.replace(", ", ",")
+    keywords_split = data['Keywords'].str.get_dummies(sep=',')
     
-    # Step 2: Perform one-hot encoding for other categorical variables (Email Status, Country, Payment Type)
-    encoded_data2 = pd.get_dummies(encoded_data[['Email Status', 'Payment Type']], drop_first=True)
+    # Step 7: Perform one-hot encoding for other categorical variables (Email Status and Payment Type)
+    other_dummies = pd.get_dummies(data[['Email Status', 'Payment Type']], drop_first=True)
     
-    # Step 3: Combine the keyword dummies with the other encoded categorical variables
-    encoded_data2 = pd.concat([encoded_data2, keywords_split], axis=1)
+    # Step 8: Combine the keyword dummies, country dummies, and other categorical dummies
+    encoded_data = pd.concat([data, country_dummies, keywords_split, other_dummies], axis=1)
     
-    # Step 4: Add the Combined MF Score (Monetary + Frequency Score)
-    encoded_data['MF Score'] = encoded_data['Monetary Score'] + encoded_data['Frequency Score']
-    encoded_data2['MF Score'] = encoded_data['MF Score']
-
-    st.dataframe(encoded_data2)
+    # Step 9: Drop unnecessary columns like 'Email Status', 'Payment Type', 'Keywords'
+    encoded_data = encoded_data.drop(columns=['Email Status', 'Payment Type', 'Keywords'])
+    
+    # Step 10: Display the final encoded dataframe
+    st.dataframe(encoded_data)
 
 # Sales grouped by Email Unsub & Payment Type    
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

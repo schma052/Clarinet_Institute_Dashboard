@@ -901,15 +901,18 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # 2. Set X (the independent variables) as all columns except 'Combined MF Score'
     X = encoded_data.drop(columns=['MF Score'])
     # Optionally convert X and y to numpy arrays if required by the model
-    X = X.values  # Converts X to a NumPy array
-    y = y.values  # Converts y to a NumPy array
+    #X = X.values  # Converts X to a NumPy array
+    #y = y.values  # Converts y to a NumPy array
 
     # Initialize model with the correct lower and upper limits for censoring
     lower_limit = 2  # Example lower limit
     upper_limit = 8  # Example upper limit
+
+    # Add constant (intercept) to X
+    X_with_const = sm.add_constant(X)
     
     # Fit the Tobit model
-    tobit_model = Tobit(y, X)
+    tobit_model = Tobit(y, X_with_const)
     tobit_results = tobit_model.fit()
     
     # Print the results summary

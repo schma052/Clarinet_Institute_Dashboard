@@ -898,6 +898,12 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Step 8: Combine the keyword dummies, country dummies, and other categorical dummies
     encoded_data = pd.concat([data, country_dummies, keywords_split, other_dummies], axis=1)
+
+    # Convert all one-hot encoded columns to integer type to ensure uniformity
+    # This includes dummies from country, keywords, and other categorical variables
+    one_hot_encoded_columns = list(country_dummies.columns) + list(keywords_split.columns) + list(other_dummies.columns)
+    for column in one_hot_encoded_columns:
+        encoded_data[column] = encoded_data[column].astype(int)
     
     # Step 9: Drop unnecessary columns like 'Email Status', 'Payment Type', 'Keywords'
     encoded_data = encoded_data.drop(columns=['Email Status', 'Payment Type', 'Keywords'])

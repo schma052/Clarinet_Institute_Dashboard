@@ -909,11 +909,6 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
     # Add a constant (intercept) to the independent variables
     X_with_const = sm.add_constant(X)
-    
-    # Fit the Tobit model
-    tobit_model = Tobit(y, X_with_const)
-    tobit_results = tobit_model.fit()
-    
 
 
 

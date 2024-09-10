@@ -861,6 +861,21 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     st.markdown("**Customer :rainbow[Loyalty & RFM] Details for :rainbow[Targeted Advertising]:**")
     st.dataframe(filtered_df)
 
+    # What Makes a Good Customer ?
+    # find me f key
+    # Step 1: Calculate the Combined MF Score (Monetary + Frequency Score)
+    data = filtered_df
+    data['MF Score'] = data['Monetary Score'] + data['Frequency Score']
+    
+    # Step 2: Encode categorical variables (Keywords, Email Status, Country, Payment Type)
+    # Using get_dummies for simplicity to one-hot encode the categorical features
+    encoded_data = pd.get_dummies(data[['Keywords', 'Email Status', 'Country', 'Payment Type']], drop_first=True)
+    
+    # Step 3: Add the Combined MF Score to the encoded dataframe
+    encoded_data['Combined MF Score'] = data['Combined MF Score']
+
+    st.dataframe(encoded_data)
+
 # Sales grouped by Email Unsub & Payment Type    
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       

@@ -905,19 +905,19 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     y = y.values  # Converts y to a NumPy array
 
     class TobitModel:
-    def __init__(self, lower_limit, upper_limit):
-        self.lower_limit = lower_limit
-        self.upper_limit = upper_limit
-
-    def fit(self, X, y):
-        # Fit the Tobit model using statsmodels
-        model = Tobit(y, X, left=self.lower_limit, right=self.upper_limit)
-        self.results = model.fit()
-
-    def predict(self, X):
-        # Predict new data using the fitted model
-        predicted = self.results.predict(X)
-        return np.clip(predicted, self.lower_limit, self.upper_limit)
+        def __init__(self, lower_limit, upper_limit):
+            self.lower_limit = lower_limit
+            self.upper_limit = upper_limit
+    
+        def fit(self, X, y):
+            # Fit the Tobit model using statsmodels
+            model = Tobit(y, X, left=self.lower_limit, right=self.upper_limit)
+            self.results = model.fit()
+    
+        def predict(self, X):
+            # Predict new data using the fitted model
+            predicted = self.results.predict(X)
+            return np.clip(predicted, self.lower_limit, self.upper_limit)
 
     # Initialize model with the correct lower and upper limits for censoring
     lower_limit = 2  # Example lower limit

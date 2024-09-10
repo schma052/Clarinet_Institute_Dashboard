@@ -899,8 +899,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     encoded_data['MF Score'] = encoded_data['Monetary Score'] + encoded_data['Frequency Score']
     encoded_data2['MF Score'] = encoded_data['MF Score']
 
-    
-
+    st.dataframe(encoded_data2)
 
 # Sales grouped by Email Unsub & Payment Type    
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

@@ -10,6 +10,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 from scipy.stats import norm
 import statsmodels.api as sm
+from statsmodels.miscmodels.regression import Tobit
 
 # Set global font size for matplotlib
 plt.rcParams.update({'font.size': 13})  # You can adjust the size here as needed
@@ -895,8 +896,48 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Step 9: Drop unnecessary columns like 'Email Status', 'Payment Type', 'Keywords'
     encoded_data = encoded_data.drop(columns=['Email Status', 'Payment Type', 'Keywords'])
     
-    # Step 10: Display the final encoded dataframe
-    st.dataframe(encoded_data)
+    # 1. Set y (the dependent variable) as the 'Combined MF Score' column
+    y = encoded_data['MF Score']
+    # 2. Set X (the independent variables) as all columns except 'Combined MF Score'
+    X = encoded_data.drop(columns=['MF Score'])
+    # Optionally convert X and y to numpy arrays if required by the model
+    X = X.values  # Converts X to a NumPy array
+    y = y.values  # Converts y to a NumPy array
+
+    class TobitModel:
+    def __init__(self, lower_limit, upper_limit):
+        self.lower_limit = lower_limit
+        self.upper_limit = upper_limit
+
+    def fit(self, X, y):
+        # Fit the Tobit model using statsmodels
+        model = Tobit(y, X, left=self.lower_limit, right=self.upper_limit)
+        self.results = model.fit()
+
+    def predict(self, X):
+        # Predict new data using the fitted model
+        predicted = self.results.predict(X)
+        return np.clip(predicted, self.lower_limit, self.upper_limit)
+
+    # Initialize model with the correct lower and upper limits for censoring
+    lower_limit = 2  # Example lower limit
+    upper_limit = 8  # Example upper limit
+    model = TobitModel(lower_limit, upper_limit)
+    
+    # Fit the model to your preprocessed data
+    # X and y should be defined outside this script, based on your preprocessing
+    model.fit(X, y)
+    
+    # Print model summary
+    print(model.results.summary())
+    
+    # Predict on new data (new_X should be a new set of features in the same format as X)
+    new_X = np.array([[0, 1, 0, 1, ..., 1]])  # Replace with actual data for prediction
+    predictions = model.predict(new_X)
+
+    st.markdown("Predictions:", predictions)
+
+
 
 # Sales grouped by Email Unsub & Payment Type    
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

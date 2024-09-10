@@ -8,13 +8,6 @@ from datetime import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
-from statsmodels.stats.outliers_influence import variance_inflation_factor
-from statsmodels.stats.stattools import durbin_watson
-from scipy.stats import shapiro
-from statsmodels.stats.diagnostic import het_breuschpagan
-from statsmodels.regression.linear_model import OLS
-from statsmodels.tools.tools import add_constant
-
 
 # Set global font size for matplotlib
 plt.rcParams.update({'font.size': 13})  # You can adjust the size here as needed

@@ -10,6 +10,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 import statsmodels.api as sm
 from scipy.stats import norm
+from scipy.optimize import minimize
 
 
 

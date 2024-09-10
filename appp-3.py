@@ -907,11 +907,11 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # 2. Set X (the independent variables) as all columns except 'Combined MF Score'
     X = encoded_data.drop(columns=['MF Score', 'Monetary Score', 'Recency Score', 'Frequency Score', 'Email', 'Loyalty Score'])
     # Optionally convert X and y to numpy arrays if required by the model
-    X = X.values  # Converts X to a NumPy array
-    y = y.values  # Converts y to a NumPy array
+    #X = X.values  # Converts X to a NumPy array
+    #y = y.values  # Converts y to a NumPy array
 
-st.dataframe(X)
-st.dataframe(y)
+    
+
     
 
 # Sales grouped by Email Unsub & Payment Type    

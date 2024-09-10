@@ -919,7 +919,54 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         if encoded_data[column].dtype == 'bool':
             encoded_data[column] = encoded_data[column].astype(int)
 
-   
+   class DoubleCensoredTobit(sm.base.model.GenericLikelihoodModel):
+        def __init__(self, endog, exog, left=0, right=np.inf):
+            super(DoubleCensoredTobit, self).__init__(endog, exog)
+            self.left = left
+            self.right = right
+    
+        def loglike(self, params):
+            sigma = params[-1]
+            beta = params[:-1]
+            xb = np.dot(self.exog, beta)
+            
+            # Likelihood for uncensored observations
+            ll_obs = -(self.endog - xb)**2 / (2 * sigma**2) - np.log(sigma * np.sqrt(2 * np.pi))
+            
+            # Likelihood for left-censored observations
+            ll_left = np.log(sm.stats.norm.cdf((self.left - xb) / sigma))
+            
+            # Likelihood for right-censored observations
+            ll_right = np.log(1 - sm.stats.norm.cdf((self.right - xb) / sigma))
+            
+            # Combine contributions based on censoring
+            is_left_censored = self.endog <= self.left
+            is_right_censored = self.endog >= self.right
+            is_uncensored = ~is_left_censored & ~is_right_censored
+    
+            log_likelihood = (ll_obs * is_uncensored +
+                              ll_left * is_left_censored +
+                              ll_right * is_right_censored)
+            return log_likelihood.sum()
+    
+        def fit(self, start_params=None, maxiter=10000, maxfun=5000, **kwds):
+            if start_params is None:
+                # Initialize with reasonable defaults: coefficients (0s) and sigma (1)
+                start_params = np.append(np.zeros(self.exog.shape[1]), 1)
+    
+            return super(DoubleCensoredTobit, self).fit(start_params=start_params,
+                                                        maxiter=maxiter, maxfun=maxfun, **kwds)
+    
+    # Set your censoring points
+    left_censoring_point = 2  # Modify as needed
+    right_censoring_point = 8  # Modify as needed
+    
+    # Create and fit the model
+    model = DoubleCensoredTobit(y, X, left=left_censoring_point, right=right_censoring_point)
+    result = model.fit()
+
+    # Display 
+    st.text(result.summary())
 
 # Sales grouped by Email Unsub & Payment Type    
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

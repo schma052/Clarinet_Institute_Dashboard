@@ -8,7 +8,6 @@ from datetime import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
-from py4etrics import Tobit
 
 # Set global font size for matplotlib
 plt.rcParams.update({'font.size': 13})  # You can adjust the size here as needed
@@ -905,11 +904,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Initialize model with the correct lower and upper limits for censoring
     lower_limit = 2  # Example lower limit
     upper_limit = 8  # Example upper limit
-    # Assuming X and y are your preprocessed data
-    model = Tobit(y, X, c_lw=lower_limit, c_up=upper_limit)
-    results = model.fit()
 
-    st.markdown("Predictions:", results.summary())
 
 
 

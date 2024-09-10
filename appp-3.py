@@ -8,6 +8,8 @@ from datetime import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
+from scipy.stats import norm
+import statsmodels.api as sm
 
 # Set global font size for matplotlib
 plt.rcParams.update({'font.size': 13})  # You can adjust the size here as needed
@@ -865,16 +867,31 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # find me f key
     # Step 1: Calculate the Combined MF Score (Monetary + Frequency Score)
     data = filtered_df
+
+    # Step 1: Find the top 10 most common countries
+    top_10_countries = data['Country'].value_counts().nlargest(10).index
+    
+    # Step 2: Create a new column 'Country_Grouped' where countries outside the top 10 are labeled as 'RoW'
+    data['Country_Grouped'] = data['Country'].apply(lambda x: x if x in top_10_countries else 'RoW')
+    
+    # Step 3: One-hot encode the top 10 countries and 'RoW'
+    country_dummies = pd.get_dummies(data['Country_Grouped'], drop_first=False)  # Don't drop any columns
+    
+    # Step 4: Drop the original 'Country' and 'Country_Grouped' columns (if no longer needed)
+    data = data.drop(columns=['Country', 'Country_Grouped'])
+    
+    # Step 5: Combine the new encoded country columns with the rest of your data
+    encoded_data = pd.concat([data, country_dummies], axis=1)
     # Step 1: Split the Keywords column into individual keywords
+    data = encoded_data
     # We'll first replace any spaces after commas to ensure consistent splitting
     data['Keywords'] = data['Keywords'].str.replace(", ", ",")
     #data['Keywords'] = data['Keywords'].str.replace(" ,", ",")
-    
     # Then split the keywords and create dummy variables for each unique keyword
     keywords_split = data['Keywords'].str.get_dummies(sep=',')
     
     # Step 2: Perform one-hot encoding for other categorical variables (Email Status, Country, Payment Type)
-    encoded_data = pd.get_dummies(data[['Email Status', 'Country', 'Payment Type']], drop_first=True)
+    encoded_data = pd.get_dummies(data[['Email Status', 'Payment Type']], drop_first=True)
     
     # Step 3: Combine the keyword dummies with the other encoded categorical variables
     encoded_data = pd.concat([encoded_data, keywords_split], axis=1)
@@ -884,6 +901,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     encoded_data['MF Score'] = data['MF Score']
 
     st.dataframe(encoded_data)
+
 
 # Sales grouped by Email Unsub & Payment Type    
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

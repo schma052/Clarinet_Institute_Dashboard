@@ -865,13 +865,22 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # find me f key
     # Step 1: Calculate the Combined MF Score (Monetary + Frequency Score)
     data = filtered_df
+    # Step 1: Split the Keywords column into individual keywords
+    # We'll first replace any spaces after commas to ensure consistent splitting
+    data['Keywords'] = data['Keywords'].str.replace(", ", ",")
+    #data['Keywords'] = data['Keywords'].str.replace(" ,", ",")
+    
+    # Then split the keywords and create dummy variables for each unique keyword
+    keywords_split = data['Keywords'].str.get_dummies(sep=',')
+    
+    # Step 2: Perform one-hot encoding for other categorical variables (Email Status, Country, Payment Type)
+    encoded_data = pd.get_dummies(data[['Email Status', 'Country', 'Payment Type']], drop_first=True)
+    
+    # Step 3: Combine the keyword dummies with the other encoded categorical variables
+    encoded_data = pd.concat([encoded_data, keywords_split], axis=1)
+    
+    # Step 4: Add the Combined MF Score (Monetary + Frequency Score)
     data['MF Score'] = data['Monetary Score'] + data['Frequency Score']
-    
-    # Step 2: Encode categorical variables (Keywords, Email Status, Country, Payment Type)
-    # Using get_dummies for simplicity to one-hot encode the categorical features
-    encoded_data = pd.get_dummies(data[['Keywords', 'Email Status', 'Country', 'Payment Type']], drop_first=True)
-    
-    # Step 3: Add the Combined MF Score to the encoded dataframe
     encoded_data['MF Score'] = data['MF Score']
 
     st.dataframe(encoded_data)

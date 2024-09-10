@@ -907,12 +907,6 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Initialize model with the correct lower and upper limits for censoring
     lower_limit = 2  # Example lower limit
     upper_limit = 8  # Example upper limit
-
-    # Add a constant (intercept) to the independent variables
-    X_with_const = sm.add_constant(X)
-
-    st.write(f"Shape of X_with_const: {X_with_const.shape}")
-    st.write(f"Shape of y: {y.shape}")
     
     # Fit the Tobit model
     tobit_model = Tobit(y, X_with_const)

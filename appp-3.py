@@ -937,8 +937,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         def fit(self, y, X):
             X = sm.add_constant(X)  # Adds an intercept to the model
             params0 = np.append(np.zeros(X.shape[1]), 1)  # Initial parameter guesses
-            results = sm.minimize(lambda params: -np.sum(self._ll_obs(params, y, X)), params0, method='L-BFGS-B')
+            results = minimize(lambda params: -np.sum(self._ll_obs(params, y, X)), params0, method='L-BFGS-B')
             return results
+
     
     model = TobitModel(left_censored=True, right_censored=True, left_limit=2, right_limit=8)
     results = model.fit(y, X)

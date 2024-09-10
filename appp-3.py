@@ -919,7 +919,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         if encoded_data[column].dtype == 'bool':
             encoded_data[column] = encoded_data[column].astype(int)
 
-   class DoubleCensoredTobit(sm.base.model.GenericLikelihoodModel):
+    class DoubleCensoredTobit(sm.base.model.GenericLikelihoodModel):
         def __init__(self, endog, exog, left=0, right=np.inf):
             super(DoubleCensoredTobit, self).__init__(endog, exog)
             self.left = left

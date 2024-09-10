@@ -903,7 +903,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # 1. Set y (the dependent variable) as the 'Combined MF Score' column
     y = encoded_data['MF Score']
     # 2. Set X (the independent variables) as all columns except 'Combined MF Score'
-    X = encoded_data.drop(columns=['MF Score', 'Monetary Score', 'Recency Score', 'Frequency Score', 'Email', 'loyalty Score'])
+    X = encoded_data.drop(columns=[['MF Score', 'Monetary Score', 'Recency Score', 'Frequency Score', 'Email', 'loyalty Score']])
     # Optionally convert X and y to numpy arrays if required by the model
     #X = X.values  # Converts X to a NumPy array
     #y = y.values  # Converts y to a NumPy array

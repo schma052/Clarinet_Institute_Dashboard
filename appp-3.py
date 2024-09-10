@@ -966,7 +966,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Initialize and fit the Tobit model
     model = TobitModel(left_censored=True, right_censored=True, left_limit=2, right_limit=8)  # # Set true/false as per your data and define limits
     results = model.fit(y, X)
-    st.text("Parameter estimates:", results.x)
+    #st.text("Parameter estimates:", results.x)
     
 
 

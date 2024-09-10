@@ -907,7 +907,15 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     lower_limit = 2  # Example lower limit
     upper_limit = 8  # Example upper limit
 
+    # Add a constant (intercept) to the independent variables
+    X_with_const = sm.add_constant(X)
     
+    # Fit the Tobit model
+    tobit_model = Tobit(y, X_with_const)
+    tobit_results = tobit_model.fit()
+    
+    # Print the results summary
+    st.markdown("Predictions:", tobit_results.summary())
 
 
 # Sales grouped by Email Unsub & Payment Type    

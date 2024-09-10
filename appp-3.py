@@ -883,24 +883,23 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Step 5: Combine the new encoded country columns with the rest of your data
     encoded_data = pd.concat([data, country_dummies], axis=1)
     # Step 1: Split the Keywords column into individual keywords
-    data = encoded_data
     # We'll first replace any spaces after commas to ensure consistent splitting
-    data['Keywords'] = data['Keywords'].str.replace(", ", ",")
+    encoded_data['Keywords'] = encoded_data['Keywords'].str.replace(", ", ",")
     #data['Keywords'] = data['Keywords'].str.replace(" ,", ",")
     # Then split the keywords and create dummy variables for each unique keyword
-    keywords_split = data['Keywords'].str.get_dummies(sep=',')
+    keywords_split = encoded_data['Keywords'].str.get_dummies(sep=',')
     
     # Step 2: Perform one-hot encoding for other categorical variables (Email Status, Country, Payment Type)
-    encoded_data = pd.get_dummies(data[['Email Status', 'Payment Type']], drop_first=True)
+    encoded_data2 = pd.get_dummies(encoded_data[['Email Status', 'Payment Type']], drop_first=True)
     
     # Step 3: Combine the keyword dummies with the other encoded categorical variables
-    encoded_data = pd.concat([encoded_data, keywords_split], axis=1)
+    encoded_data2 = pd.concat([encoded_data2, keywords_split], axis=1)
     
     # Step 4: Add the Combined MF Score (Monetary + Frequency Score)
-    data['MF Score'] = data['Monetary Score'] + data['Frequency Score']
-    encoded_data['MF Score'] = data['MF Score']
+    encoded_data['MF Score'] = encoded_data['Monetary Score'] + encoded_data['Frequency Score']
+    encoded_data2['MF Score'] = encoded_data['MF Score']
 
-    st.dataframe(encoded_data)
+    
 
 
 # Sales grouped by Email Unsub & Payment Type    

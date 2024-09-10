@@ -911,7 +911,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Add constant (intercept) to X
     X_with_const = sm.add_constant(X)
     
-    st.dataframe(encoded_data)
+    st.dataframe(X)
+    st.dataframe(y)
 
 
 # Sales grouped by Email Unsub & Payment Type    

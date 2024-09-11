@@ -907,11 +907,14 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Step 9: Drop unnecessary columns like 'Email Status', 'Payment Type', 'Keywords'
     encoded_data = encoded_data.drop(columns=['Email Status', 'Payment Type', 'Keywords'])
+    # Create a new column 'binary_var' with 1 if 'original_var' > 5, else 0
+    encoded_data['VIP'] = (encoded_data['MF Score'] > 5).astype(int)
+
     
     # 1. Set y (the dependent variable) as the 'MF Score' column
-    y = encoded_data['MF Score']
+    y = encoded_data['VIP']
     # 2. Set X (the independent variables) as all columns except 'MF Score'
-    X = encoded_data.drop(columns=['MF Score', 'Monetary Score', 'Recency Score', 'Frequency Score', 'Email', 'Loyalty Score'])
+    X = encoded_data.drop(columns=['VIP','MF Score', 'Monetary Score', 'Recency Score', 'Frequency Score', 'Email', 'Loyalty Score'])
     # Optionally convert X and y to numpy arrays if required by the model
     #X = X.values  # Converts X to a NumPy array
     #y = y.values  # Converts y to a NumPy array
@@ -921,7 +924,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         if encoded_data[column].dtype == 'bool':
             encoded_data[column] = encoded_data[column].astype(int)
     # find me f key
-    
+    st.dataframe(X, y)
             
 
 # Sales grouped by Email Unsub & Payment Type    

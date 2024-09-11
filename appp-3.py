@@ -982,7 +982,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     st.markdown(" ")
     st.markdown(" ")
     st.markdown("**What Makes a Big Spender? Let's Use Logistic Regression to Find Out**")
-    st.markdown(":blue[(M > 2)]")
+    st.markdown(":blue[Big Spenders are the Top Half of Customers]")
     st.plotly_chart(fig, use_container_width=True)
     
     

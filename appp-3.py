@@ -983,7 +983,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     st.markdown(" ")
     st.markdown(" ")
     st.markdown("**What Makes a VIP? Let's Use Logistic Regression to Find Out**")
-    st.markdown(":blue[VIPs are in the Top Quartile of Spenders]")
+    st.markdown(":blue[VIPs are those in the top quartile of spenders]")
     st.plotly_chart(fig, use_container_width=True)
     
     

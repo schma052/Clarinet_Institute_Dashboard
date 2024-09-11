@@ -6,5 +6,5 @@ pandasql
 statsmodels
 numpy
 scipy
-
+altair
 

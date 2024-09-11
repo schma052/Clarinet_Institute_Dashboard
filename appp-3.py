@@ -958,7 +958,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         yaxis_title="Change in Prob. of Customer being VIP",
         plot_bgcolor='white',
         paper_bgcolor='white',
-        xaxis=dict(tickangle=0),
+        xaxis=dict(tickangle=45),
         font=dict(family="Times New Roman", size=12, color="black"),
         hovermode='closest'
     )

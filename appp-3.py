@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import statsmodels.api as sm
-import altair as alt
+
 
 
 
@@ -930,7 +930,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Filter significant coefficients (e.g., p-value < 0.05)
     significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
     # Apply a style template that's close to Streamlit's default style
-    plt.style.use('seaborn-whitegrid')
+    plt.style.use('ggplot')
     # Error bars calculated from confidence intervals
     error_bars = [significant_margeff['dy/dx'] - significant_margeff['Conf. Int. Low'],
                   significant_margeff['Cont. Int. Hi.'] - significant_margeff['dy/dx']]

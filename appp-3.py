@@ -970,7 +970,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Base cases note at the bottom
     fig.add_annotation(
         x=0,
-        y=1.25,
+        y=1.00,
         xref='paper',
         yref='paper',
         text="Binary Base cases: Country: Australia, Instrument: Bassoon, Payment type: Free",

@@ -1437,9 +1437,75 @@ ORDER BY Date
     st.bar_chart(Q_df[columns_to_display], stack=False)
     st.markdown(":blue[Europeans are unsubscribing. Marketing strategies are being re-designed to boost European engagement.]")
 
+# What makes a Email Unsubscriber
+if uploaded_file_sales is not None and uploaded_file_customer is not None:
+    uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
+    uploaded_file_sales.seek(0) 
+    
+    model = sm.Logit(y, X)
+    result = model.fit()
+    # Calculate the marginal effects
+    marginal_effects = result.get_margeff()
+    marginal_effects_df = marginal_effects.summary_frame()
+    # DO NOT Display Regression Results. DONT MAKE CUELLAR MAD !
+    # Filter significant coefficients (e.g., p-value < 0.05)
+    significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.05]
+    # Sort the DataFrame by the lower bound of the coefficient
+    significant_margeff = significant_margeff.sort_values('Conf. Int. Low', ascending=True)
 
-
-
+    # Apply a style template that's close to Streamlit's default style
+    plt.style.use('ggplot')
+    # Error bars calculated from confidence intervals
+    error_y = [significant_margeff['dy/dx'] - significant_margeff['Conf. Int. Low'],
+                  significant_margeff['Cont. Int. Hi.'] - significant_margeff['dy/dx']]
+    
+    # Create the error bar graph
+    fig = go.Figure(data=go.Scatter(
+        x=significant_margeff.index,
+        y=significant_margeff['dy/dx'],
+        error_y=dict(
+            type='data',
+            symmetric=False,
+            array=error_y[1],
+            arrayminus=error_y[0],
+            color='lightblue',
+            thickness=1.5,
+            width=3,
+        ),
+        mode='markers',
+        marker=dict(size=10, color='blue', opacity=0.6)  # Using a simple color for demonstration
+    ))
+    
+    # Customize the layout to match the previous style
+    fig.update_layout(
+        title="",
+        xaxis_title="Statistically Significant at a 0.05 level",
+        yaxis_title="Change in % Chance of Customer being VIP",
+        plot_bgcolor='white',
+        paper_bgcolor='white',
+        xaxis=dict(tickangle=45),
+        font=dict(family="Times New Roman", size=12, color="black"),
+        hovermode='closest',
+        margin=dict(l=40, r=40, t=40, b=80)  # Adjust margins as needed
+    )
+    
+    # Base cases note at the bottom
+    fig.add_annotation(
+        x=0,
+        y=1.05,
+        xref='paper',
+        yref='paper',
+        text="Binary Base Cases: Country: Australia, Instrument: Bassoon, Payment type: Free",
+        showarrow=False,
+        font=dict(size=12),
+        align='center'
+    )
+    
+    # Display the plot in Streamlit
+    st.dataframe(filtered_df))
+    st.markdown(" ")
+    st.markdown("**What Makes an Unsubscriber? Let's Use Logistic Regression to Find Out**")
+    st.plotly_chart(fig, use_container_width=True)
     
         
 

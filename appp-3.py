@@ -1114,7 +1114,8 @@ GROUP BY
     st.markdown(":green[Paypal email subscribers spend **more** per purchase than those that unsub, while Stripe subs spend **less** per purchase than those that unsub. Despite this, Stripe users tend to spend **more** per purchase than Paypal users.]")
     st.markdown(":violet[We can see that purchases with the **Free** payment type have not spent a dime, conversely it also has the highest probabilty of a VIP in the Payment Type category. This is becasue the payment type variable corresponds **only** to the most recent payment type used by the customer. Free means they recieved a free product from customer service as their most recent order.]")
     st.markdown(":blue[**From this we glean that those reaching out to customer service are already the biggest spenders**]")
-        
+    st.markdown(" ")
+    
 # Country Metrics
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       

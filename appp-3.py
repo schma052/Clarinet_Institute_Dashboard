@@ -1435,8 +1435,7 @@ ORDER BY Date
 
     # Display the bar chart with the selected columns
     st.bar_chart(Q_df[columns_to_display], stack=False)
-    st.markdown(":blue[Europeans are unsubscribing. Marketing strategies are being re-designed to boost European engagement.]")
-
+    
 # What makes a Email Unsubscriber
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
@@ -1514,6 +1513,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Display the plot in Streamlit
     st.markdown(" ")
     st.plotly_chart(fig, use_container_width=True)
+    st.markdown(":blue[Europeans are unsubscribing, but their favorite products are keeping them here. Marketing strategies are being re-designed to boost European engagement.]")
+
     
         
 

@@ -953,9 +953,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Customize the layout to match the previous style
     fig.update_layout(
-        title='Change in Prob. of Custumer being VIP from 1 unit change of X-axis vars. holding all else const.',
+        title='Making a VIP',
         xaxis_title="",
-        yaxis_title="",
+        yaxis_title="Change in Prob. of Customer being VIP",
         plot_bgcolor='white',
         paper_bgcolor='white',
         xaxis=dict(tickangle=0),
@@ -966,7 +966,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Base cases note at the bottom
     fig.add_annotation(
         x=0,
-        y=-0.5,
+        y=-0.25,
         xref='paper',
         yref='paper',
         text="Base cases: Country: Australia, Instrument: Bassoon, Payment type: Free",

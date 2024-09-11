@@ -953,7 +953,6 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Customize the layout to match the previous style
     fig.update_layout(
-        title='',
         xaxis_title="",
         yaxis_title="Change in Prob. of Customer being VIP",
         plot_bgcolor='white',

@@ -935,28 +935,13 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
     ## Filter significant coefficients (e.g., p-value < 0.05)
     # significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
-    ######################################################### Plotting
-    
-    def plot_marginal_effects(data):
-        chart = alt.Chart(data.reset_index()).mark_bar().encode(
-            x='index:N',  # Nominal data from the index (variable names)
-            y='dy/dx:Q',  # Quantitative marginal effects
-            tooltip=['index', 'dy/dx', 'P>|z|', 'Conf. Int. Low', 'Conf. Int. Hi'],  # Tooltips on hover
-            color=alt.condition(
-                alt.datum['P>|z|'] < 0.01,  # Conditional color based on p-value
-                alt.value('steelblue'),     # Color for significant effects
-                alt.value('lightgray')      # Color for non-significant effects
-            )
-        ).properties(
-            title='Significant Marginal Effects'
-        )
-    
-        return chart
 
-    # Plot using Altair
-    chart = plot_marginal_effects(marginal_effects_df)
-    st.altair_chart(chart, use_container_width=True)
 
+
+
+
+
+    
 # find me f key
 # Sales grouped by Email Unsub & Payment Type    
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

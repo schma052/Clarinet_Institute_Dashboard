@@ -926,17 +926,30 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Calculate the marginal effects
     marginal_effects = result.get_margeff()
     marginal_effects_df = marginal_effects.summary_frame()
+    st.text(marginal_effects_df.columns)
     # Display Regression Results. DONT MAKE CUELLAR MAD !
-    # st.markdown("**Change in Log Odds Ratio from a 1 unit change in ind. var. ceteris paribus**")
-    # st.text(result.summary())
-    # st.markdown("**Change in Marginal Effects in probability of y from a 1 unit change in ind. var. ceteris paribus**")
-    # st.text(marginal_effects.summary())
-    # st.text(marginal_effects_df.columns)
-
-    ## Filter significant coefficients (e.g., p-value < 0.05)
-    # significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
-
-
+    # Filter significant coefficients (e.g., p-value < 0.05)
+    significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
+    # Apply a style template that's close to Streamlit's default style
+    plt.style.use('seaborn-whitegrid')
+    # Error bars calculated from confidence intervals
+    error_bars = [significant_margeff['dy/dx'] - significant_margeff['[0.025'],
+                  significant_margeff['0.975]'] - significant_margeff['dy/dx']]
+    
+    # Plotting
+    fig, ax = plt.subplots()
+    ax.errorbar(significant_margeff.index, significant_margeff['dy/dx'], 
+                 yerr=error_bars,
+                 fmt='o', color='steelblue', ecolor='lightgray', capthick=2, capsize=5, marker='o', markersize=8)
+    
+    ax.set_xlabel('Variables')
+    ax.set_ylabel('Marginal Effects')
+    ax.set_title('Significant Marginal Effects of Variables')
+    plt.xticks(rotation=45)
+    plt.grid(True, linestyle='--', linewidth=0.5, color='gray', alpha=0.5)  # Custom grid style
+    
+    # Enhancing layout for clarity
+    plt.tight_layout()
 
 
 

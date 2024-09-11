@@ -932,7 +932,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # st.text(marginal_effects.summary())
     
     ## Filter significant coefficients (e.g., p-value < 0.05)
-    significant_margeff = margeff_df[margeff_df['P>|z|'] < 0.01]
+    significant_margeff = marginal_effects[marginal_effects['P>|z|'] < 0.01]
     # Plotting
     fig, ax = plt.subplots()
     ax.errorbar(significant_margeff.index, significant_margeff['dy/dx'], 

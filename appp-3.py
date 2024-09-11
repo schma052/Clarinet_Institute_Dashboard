@@ -931,10 +931,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # st.text(result.summary())
     # st.markdown("**Change in Marginal Effects in probability of y from a 1 unit change in ind. var. ceteris paribus**")
     # st.text(marginal_effects.summary())
-    st.text(marginal_effects_df.columns)
 
     ## Filter significant coefficients (e.g., p-value < 0.05)
-    significant_margeff = marginal_effects_df[marginal_effects_df['P>|z|'] < 0.01]
+    significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
     # Plotting
     fig, ax = plt.subplots()
     ax.errorbar(significant_margeff.index, significant_margeff['dy/dx'], 

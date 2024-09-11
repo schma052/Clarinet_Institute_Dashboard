@@ -1512,10 +1512,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     )
     
     # Display the plot in Streamlit
-    st.dataframe(X)
-    st.dataframe(y)
     st.markdown(" ")
-    # st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)
     
         
 

@@ -926,15 +926,15 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Calculate the marginal effects
     marginal_effects = result.get_margeff()
     marginal_effects_df = marginal_effects.summary_frame()
-    st.text(marginal_effects_df.columns)
+    st.text(marginal_effects_df.head())
     # Display Regression Results. DONT MAKE CUELLAR MAD !
     # Filter significant coefficients (e.g., p-value < 0.05)
     significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
     # Apply a style template that's close to Streamlit's default style
     plt.style.use('seaborn-whitegrid')
     # Error bars calculated from confidence intervals
-    error_bars = [significant_margeff['dy/dx'] - significant_margeff['[0.025'],
-                  significant_margeff['0.975]'] - significant_margeff['dy/dx']]
+    error_bars = [significant_margeff['dy/dx'] - significant_margeff['Conf. Int. Low'],
+                  significant_margeff['Cont. Int. Hi.'] - significant_margeff['dy/dx']]
     
     # Plotting
     fig, ax = plt.subplots()

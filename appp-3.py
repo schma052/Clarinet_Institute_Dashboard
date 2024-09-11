@@ -957,7 +957,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Customize the layout to match the previous style
     fig.update_layout(
         title="",
-        xaxis_title="",
+        xaxis_title="Statistically Significant at a 1% level",
         yaxis_title="Change in Prob. of Customer being VIP",
         plot_bgcolor='white',
         paper_bgcolor='white',
@@ -972,7 +972,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         y=1.25,
         xref='paper',
         yref='paper',
-        text="Base cases: Country: Australia, Instrument: Bassoon, Payment type: Free",
+        text="Binary Base cases: Country: Australia, Instrument: Bassoon, Payment type: Free",
         showarrow=False,
         font=dict(size=12),
         align='center'

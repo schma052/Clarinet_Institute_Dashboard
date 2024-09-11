@@ -1182,6 +1182,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
             
         ax1.grid(True, which='major', axis='y', linestyle='-', linewidth=0.57, color='lightgrey', zorder=0)
+        ax1.grid(False, which='major', axis='x')  # Explicitly disable x-axis grid lines
         ax1.set_xlabel('')
         ax1.set_title('Country Metrics')
         ax1.set_xticks([p + bar_width / 2 for p in index])

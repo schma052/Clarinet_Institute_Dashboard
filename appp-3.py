@@ -924,7 +924,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         if encoded_data[column].dtype == 'bool':
             encoded_data[column] = encoded_data[column].astype(int)
     # find me f key
-    st.dataframe(X, y)
+    st.dataframe(X)
+    st.dataframe(y)
             
 
 # Sales grouped by Email Unsub & Payment Type    

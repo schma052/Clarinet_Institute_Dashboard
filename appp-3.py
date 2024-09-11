@@ -865,9 +865,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Display the DataFrame in Streamlit
     st.markdown("**Customer :rainbow[Loyalty & RFM] Details for :rainbow[Targeted Advertising]:**")
     st.dataframe(filtered_df)
-
-    # What Makes a Good Customer ? And REMEMBER Payment Type represents the last type used.
-    
+    # REMEMBER Payment Type represents the last type used.
     # Step 1: Calculate the Combined MF Score (Monetary + Frequency Score)
     data = filtered_df
     data['MF Score'] = data['Monetary Score'] + data['Frequency Score']
@@ -968,7 +966,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Base cases note at the bottom
     fig.add_annotation(
         x=0,
-        y=-1.15,
+        y=-0.5,
         xref='paper',
         yref='paper',
         text="Base cases: Country: Australia, Instrument: Bassoon, Payment type: Free",
@@ -978,6 +976,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     )
     
     # Display the plot in Streamlit
+    st.markdown("What Makes a Good Customer ?")
+    st.markdown("A VIP comes often and spends a lot (M + F > 5)")
     st.plotly_chart(fig, use_container_width=True)
     
 # find me f key

@@ -978,7 +978,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     )
     
     # Display the plot in Streamlit
-    
+    st.plotly_chart(fig, use_container_width=True)
     
 # find me f key
 # Sales grouped by Email Unsub & Payment Type    

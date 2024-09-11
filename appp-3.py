@@ -906,7 +906,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Step 9: Drop unnecessary columns like 'Email Status', 'Payment Type', 'Keywords'
     encoded_data = encoded_data.drop(columns=['Email Status', 'Payment Type', 'Keywords'])
     # Create a new column 'binary_var' with 1 if 'original_var' > 5, else 0
-    encoded_data['VIP'] = (encoded_data['MF Score'] > 5).astype(int)
+    encoded_data['VIP'] = (encoded_data['Monetary Score'] > 2).astype(int)
 
     
     # 1. Set y (the dependent variable) as the 'MF Score' column
@@ -981,8 +981,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Display the plot in Streamlit
     st.markdown(" ")
     st.markdown(" ")
-    st.markdown("**What Makes a VIP Customer? Let's Use Logistic Regression to Find Out**")
-    st.markdown(":blue[A VIP returns often and spends a lot (M + F > 5)]")
+    st.markdown("**What Makes a Big Spender? Let's Use Logistic Regression to Find Out**")
+    st.markdown(":blue[(M > 2)]")
     st.plotly_chart(fig, use_container_width=True)
     
     

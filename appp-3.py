@@ -1441,10 +1441,7 @@ ORDER BY Date
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
     uploaded_file_sales.seek(0) 
-
-    # Assuming 'Email Status' is the column with 'sub' and 'unsub' values
-    encoded_data['Email Unsub'] = encoded_data['Email Status'].map({'unsub': 1, 'sub': 0})
-
+    st.dataframe(encoded_df)
     # 1. Set y (the dependent variable) as the 'MF Score' column
     y = encoded_data['Email Unsub']
     # 2. Set X (the independent variables) as all columns except 'MF Score'
@@ -1515,7 +1512,6 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     )
     
     # Display the plot in Streamlit
-    st.dataframe(filtered_df)
     st.dataframe(X)
     st.dataframe(y)
     st.markdown(" ")

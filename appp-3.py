@@ -1441,11 +1441,11 @@ ORDER BY Date
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
     uploaded_file_sales.seek(0) 
-    st.dataframe(encoded_data)
+
     # 1. Set y (the dependent variable) as the 'MF Score' column
-    y = encoded_data['Email Unsub']
+    y = encoded_data['Email Status_unsub']
     # 2. Set X (the independent variables) as all columns except 'MF Score'
-    X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Email Status'])
+    X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Email Status_unsub'])
     # Add a constant term to the regression
     X = sm.add_constant(X)
     # Optionally convert X and y to numpy arrays if required by the model
@@ -1488,9 +1488,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Customize the layout to match the previous style
     fig.update_layout(
-        title="",
+        title="What Makes an Email Unsubscriber?",
         xaxis_title="Statistically Significant at a 0.05 level",
-        yaxis_title="Change in % Chance of Customer being VIP",
+        yaxis_title="Change in % Chance of Customer Unsubscribing",
         plot_bgcolor='white',
         paper_bgcolor='white',
         xaxis=dict(tickangle=45),

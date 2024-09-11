@@ -981,7 +981,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Display the plot in Streamlit
     st.markdown(" ")
     st.markdown(" ")
-    st.markdown("**What Makes a VIP Customer? Lets use Logistic Regression to find out**")
+    st.markdown("**What Makes a VIP Customer? Let's Use Logistic Regression to Find Out**")
     st.markdown(":blue[A VIP returns often and spends a lot (M + F > 5)]")
     st.plotly_chart(fig, use_container_width=True)
     

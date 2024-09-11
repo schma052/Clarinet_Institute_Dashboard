@@ -1441,11 +1441,14 @@ ORDER BY Date
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
     uploaded_file_sales.seek(0) 
-   
+
+    # Assuming 'Email Status' is the column with 'sub' and 'unsub' values
+    encoded_data['Email Unsub'] = encoded_data['Email Status'].map({'unsub': 1, 'sub': 0})
+
     # 1. Set y (the dependent variable) as the 'MF Score' column
-    y = encoded_data['Email Status']
+    y = encoded_data['Email Unsub']
     # 2. Set X (the independent variables) as all columns except 'MF Score'
-    X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Loyalty Score', 'Email Status'])
+    X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Email Status'])
     # Add a constant term to the regression
     X = sm.add_constant(X)
     # Optionally convert X and y to numpy arrays if required by the model

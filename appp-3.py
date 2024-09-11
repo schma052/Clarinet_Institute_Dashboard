@@ -918,8 +918,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Add a constant term to the regression
     X = sm.add_constant(X)
     # Optionally convert X and y to numpy arrays if required by the model
-     X = X.values  # Converts X to a NumPy array
-     y = y.values  # Converts y to a NumPy array
+    # X = X.values  # Converts X to a NumPy array
+    # y = y.values  # Converts y to a NumPy array
 
     model = sm.Logit(y, X)
     result = model.fit()

@@ -945,7 +945,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
             symmetric=False,
             array=error_y[1],
             arrayminus=error_y[0],
-            color='red',
+            color='lightblue',
             thickness=1.5,
             width=3,
         ),
@@ -956,29 +956,28 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Customize the layout to match the previous style
     fig.update_layout(
         title='Significant Marginal Effects of Variables',
-        xaxis_title="Variables",
-        yaxis_title="Marginal Effects",
+        xaxis_title="",
+        yaxis_title="Change in Prob. of Custumer being VIP from 1 unit change of X-axis vars. holding all else const.",
         plot_bgcolor='white',
         paper_bgcolor='white',
-        xaxis=dict(tickangle=45),
+        xaxis=dict(tickangle=0),
         font=dict(family="Times New Roman", size=12, color="black"),
         hovermode='closest'
     )
     
     # Base cases note at the bottom
     fig.add_annotation(
-        x=0.5,
-        y=-0.15,
+        x=0,
+        y=-0.05,
         xref='paper',
         yref='paper',
-        text="Base cases: Country base=Non-US/CA, Instrument base=Non-Guitar/Piano, Payment type base=Non-Cash/Credit",
+        text="Base cases: Country: Australia, Instrument: Bassoon, Payment type: Free",
         showarrow=False,
-        font=dict(size=12),
-        align='center'
+        font=dict(size=5),
+        align='left'
     )
     
     # Display the plot in Streamlit
-    st.plotly_chart(fig, use_container_width=True)
     
     
 # find me f key

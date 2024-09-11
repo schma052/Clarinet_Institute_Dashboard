@@ -951,7 +951,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
             width=3,
         ),
         mode='markers',
-        marker=dict(size=10, color='blue', opacity=0.6)  # Using a simple color for demonstration
+        marker=dict(size=10, color='blue', opacity=0.4)  # Using a simple color for demonstration
     ))
     
     # Customize the layout to match the previous style
@@ -1483,7 +1483,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
             width=3,
         ),
         mode='markers',
-        marker=dict(size=10, color='blue', opacity=0.5)  # Using a simple color for demonstration
+        marker=dict(size=10, color='blue', opacity=0.4)  # Using a simple color for demonstration
     ))
     
     # Customize the layout to match the previous style

@@ -1473,7 +1473,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
             width=3,
         ),
         mode='markers',
-        marker=dict(size=10, color='blue', opacity=0.6)  # Using a simple color for demonstration
+        marker=dict(size=10, color='blue', opacity=0.5)  # Using a simple color for demonstration
     ))
     
     # Customize the layout to match the previous style
@@ -1502,7 +1502,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     )
     
     # Display the plot in Streamlit
-    st.dataframe(filtered_df))
+    st.dataframe(filtered_df)
     st.markdown(" ")
     st.markdown("**What Makes an Unsubscriber? Let's Use Logistic Regression to Find Out**")
     st.plotly_chart(fig, use_container_width=True)

@@ -926,7 +926,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     marginal_effects_df = marginal_effects.summary_frame()
     # Display Regression Results. DONT MAKE CUELLAR MAD !
     # Filter significant coefficients (e.g., p-value < 0.05)
-    significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
+    significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.05]
     # Sort the DataFrame by the lower bound of the coefficient
     significant_margeff = significant_margeff.sort_values('Conf. Int. Low', ascending=True)
 
@@ -957,7 +957,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Customize the layout to match the previous style
     fig.update_layout(
         title="",
-        xaxis_title="Statistically Significant at a 0.01 level",
+        xaxis_title="Statistically Significant at a 0.05 level",
         yaxis_title="Change in Prob. of Customer being VIP",
         plot_bgcolor='white',
         paper_bgcolor='white',

@@ -935,6 +935,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     error_y = [significant_margeff['dy/dx'] - significant_margeff['Conf. Int. Low'],
                   significant_margeff['Cont. Int. Hi.'] - significant_margeff['dy/dx']]
     
+
     # Create the error bar graph
     fig = go.Figure(data=go.Scatter(
         x=significant_margeff.index,
@@ -949,7 +950,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
             width=3,
         ),
         mode='markers',
-        marker=dict(size=10, color='Items', opacity=0.6)  # Adjust 'color' according to your data
+        marker=dict(size=10, color='blue', opacity=0.6)  # Using a simple color for demonstration
     ))
     
     # Customize the layout to match the previous style

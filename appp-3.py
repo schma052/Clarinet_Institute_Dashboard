@@ -926,7 +926,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     marginal_effects_df = marginal_effects.summary_frame()
     # Display Regression Results. DONT MAKE CUELLAR MAD !
     # Filter significant coefficients (e.g., p-value < 0.05)
-    significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.05]
+    significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
     # Sort the DataFrame by the lower bound of the coefficient
     significant_margeff = significant_margeff.sort_values('Conf. Int. Low', ascending=True)
 

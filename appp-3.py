@@ -925,12 +925,12 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     result = model.fit()
     # Calculate the marginal effects
     marginal_effects = result.get_margeff()
-    # Display 
-    st.markdown("**Change in Log Odds Ratio from a 1 unit change in ind. var. ceteris paribus**")
-    st.text(result.summary())
-    st.markdown("**Change in Marginal Effects in probability of y from a 1 unit change in ind. var. ceteris paribus**")
-    st.text(marginal_effects.summary())
-
+    # Display Regression Results. DONT MAKE CUELLAR MAD !
+    # st.markdown("**Change in Log Odds Ratio from a 1 unit change in ind. var. ceteris paribus**")
+    # st.text(result.summary())
+    # st.markdown("**Change in Marginal Effects in probability of y from a 1 unit change in ind. var. ceteris paribus**")
+    # st.text(marginal_effects.summary())
+    
 
 # find me f key
 # Sales grouped by Email Unsub & Payment Type    

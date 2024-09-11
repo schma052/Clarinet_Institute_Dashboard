@@ -1143,7 +1143,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     show_avg_net_revenue = st.checkbox('Show Average Net Revenue', True)
     show_net_revenue = st.checkbox('Show Net Revenue', True)
 
-    plt.style.use('seaborn-v0_8-bright')
+    plt.style.use('seaborn-v0_8-whitegrid')
    
     if show_avg_net_revenue or show_count or show_net_revenue:
         # Sorting

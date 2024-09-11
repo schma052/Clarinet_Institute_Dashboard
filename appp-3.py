@@ -1111,8 +1111,8 @@ GROUP BY
     st.dataframe(unsub_df, hide_index = True)
     Fig = plot_data(another_df)
     st.plotly_chart(Fig, use_container_width=True)
-    st.markdown("Paypal email subscribers spend :green[**more**] per purchase than those that unsub, while Stripe subs spend :green[**less**] per purchase than those that unsub. Despite this, Stripe users tend to spend :green[**more**] per purchase than Paypal users.")
-    st.markdown(":violet[We can see that those with the Free payment type have not spent a dime, simultaneously it is also the highest probabilty of a VIP. This is becasue the payment type variable corresponds ONLY to the most recent payment type used by the customer. Free means they recieved a free product from customer service as their most recent order.]")
+    st.markdown(":green[Paypal email subscribers spend **more** per purchase than those that unsub, while Stripe subs spend **less** per purchase than those that unsub. Despite this, Stripe users tend to spend **more** per purchase than Paypal users.]")
+    st.markdown(":violet[We can see that purchases with the **Free** payment type have not spent a dime, conversely it also has the highest probabilty of a VIP. This is becasue the payment type variable corresponds **Only** to the most recent payment type used by the customer. Free means they recieved a free product from customer service as their most recent order.]")
     
 # Country Metrics
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

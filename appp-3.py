@@ -934,24 +934,28 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     st.text(marginal_effects_df.columns)
 
     ## Filter significant coefficients (e.g., p-value < 0.05)
-    significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
-    # Plotting
-    fig, ax = plt.subplots()
-    ax.errorbar(significant_margeff.index, significant_margeff['dy/dx'], 
-                 yerr=[significant_margeff['dy/dx'] - significant_margeff['Conf. Int. Low'],
-                       significant_margeff['Cont. Int. Hi.'] - significant_margeff['dy/dx']],
-                 fmt='o', ecolor='red', capthick=2, capsize=5)
+    # significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
+    ######################################################### Plotting
     
-    ax.set_xlabel('Variables')
-    ax.set_ylabel('Marginal Effects')
-    ax.set_title('Significant Marginal Effects of Variables')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
+    def plot_marginal_effects(data):
+        chart = alt.Chart(data.reset_index()).mark_bar().encode(
+            x='index:N',  # Nominal data from the index (variable names)
+            y='dy/dx:Q',  # Quantitative marginal effects
+            tooltip=['index', 'dy/dx', 'P>|z|', 'Conf. Int. Low', 'Conf. Int. Hi'],  # Tooltips on hover
+            color=alt.condition(
+                alt.datum['P>|z|'] < 0.01,  # Conditional color based on p-value
+                alt.value('steelblue'),     # Color for significant effects
+                alt.value('lightgray')      # Color for non-significant effects
+            )
+        ).properties(
+            title='Significant Marginal Effects'
+        )
     
-    # Base cases note and Display 
-    base_case_note = "Base cases: Country base=Non-Australia, Instrument base=Non-Bassoon, Payment type base=Non-free"
-    plt.figtext(0.5, -0.05, base_case_note, wrap=True, horizontalalignment='center', fontsize=12)
-    st.pyplot(fig)
+        return chart
+
+    # Plot using Altair
+    chart = plot_marginal_effects(significant_margeff)
+    st.altair_chart(chart, use_container_width=True)
 
 # find me f key
 # Sales grouped by Email Unsub & Payment Type    

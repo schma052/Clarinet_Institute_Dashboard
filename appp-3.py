@@ -926,7 +926,6 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Calculate the marginal effects
     marginal_effects = result.get_margeff()
     marginal_effects_df = marginal_effects.summary_frame()
-    st.text(marginal_effects_df.head())
     # Display Regression Results. DONT MAKE CUELLAR MAD !
     # Filter significant coefficients (e.g., p-value < 0.05)
     significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.01]
@@ -950,7 +949,13 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Enhancing layout for clarity
     plt.tight_layout()
-
+    # Base cases note, for context and clarity
+    base_case_note = "Base cases: Country base = Australia, Instrument base = Bassoon, Payment type base = Free"
+    plt.figtext(0.5, 0.01, base_case_note, wrap=True, horizontalalignment='center', fontsize=5, color='gray')
+    
+    # Display the plot in the Streamlit app
+    st.pyplot(fig)
+    
 
 
 

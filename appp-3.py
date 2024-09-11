@@ -969,13 +969,15 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         y=-0.25,
         xref='paper',
         yref='paper',
-        text=":blue[A VIP returns often and spends a lot (M + F > 5)] Base cases: Country: Australia, Instrument: Bassoon, Payment type: Free",
+        text="Base cases: Country: Australia, Instrument: Bassoon, Payment type: Free",
         showarrow=False,
         font=dict(size=10),
         align='left'
     )
     
     # Display the plot in Streamlit
+    st.markdown("**What Makes a VIP Customer?**")
+    st.markdown(":blue[A VIP returns often and spends a lot (M + F > 5)]")
     st.plotly_chart(fig, use_container_width=True)
     
 # find me f key

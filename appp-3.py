@@ -9,8 +9,8 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import statsmodels.api as sm
-from statsmodels.base.model import GenericLikelihoodModel
-from scipy.stats import norm
+import altair as alt
+
 
 
 

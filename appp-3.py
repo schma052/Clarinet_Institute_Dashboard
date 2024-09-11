@@ -963,7 +963,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         paper_bgcolor='white',
         xaxis=dict(tickangle=45),
         font=dict(family="Times New Roman", size=12, color="black"),
-        hovermode='closest'
+        hovermode='closest',
         margin=dict(l=40, r=40, t=40, b=80)  # Adjust margins as needed
     )
     

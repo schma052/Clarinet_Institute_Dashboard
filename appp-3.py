@@ -958,7 +958,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     fig.update_layout(
         title="",
         xaxis_title="Statistically Significant at a 0.05 level",
-        yaxis_title="Change in Prob. of Customer being VIP",
+        yaxis_title="Change in % Chance of Customer being VIP",
         plot_bgcolor='white',
         paper_bgcolor='white',
         xaxis=dict(tickangle=45),

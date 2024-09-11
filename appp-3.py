@@ -938,8 +938,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Plotting
     fig, ax = plt.subplots()
     ax.errorbar(significant_margeff.index, significant_margeff['dy/dx'], 
-                 yerr=[significant_margeff['dy/dx'] - significant_margeff['[0.025'],
-                       significant_margeff['0.975]'] - significant_margeff['dy/dx']],
+                 yerr=[significant_margeff['dy/dx'] - significant_margeff['Conf. Int. Low'],
+                       significant_margeff['Conf. Int. Hi.'] - significant_margeff['dy/dx']],
                  fmt='o', ecolor='red', capthick=2, capsize=5)
     
     ax.set_xlabel('Variables')

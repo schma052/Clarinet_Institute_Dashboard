@@ -932,7 +932,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Apply a style template that's close to Streamlit's default style
     plt.style.use('ggplot')
     # Error bars calculated from confidence intervals
-    error_bars = [significant_margeff['dy/dx'] - significant_margeff['Conf. Int. Low'],
+    error_y = [significant_margeff['dy/dx'] - significant_margeff['Conf. Int. Low'],
                   significant_margeff['Cont. Int. Hi.'] - significant_margeff['dy/dx']]
     
     # Create the error bar graph

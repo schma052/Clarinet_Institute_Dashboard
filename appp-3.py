@@ -948,9 +948,10 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     plt.xticks(rotation=45)
     plt.tight_layout()
     
-    # Base cases note
+    # Base cases note and Display 
     base_case_note = "Base cases: Country base=Non-Australia, Instrument base=Non-Bassoon, Payment type base=Non-free"
     plt.figtext(0.5, -0.05, base_case_note, wrap=True, horizontalalignment='center', fontsize=12)
+    st.pyplot(fig)
 
 # find me f key
 # Sales grouped by Email Unsub & Payment Type    

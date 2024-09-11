@@ -976,8 +976,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     )
     
     # Display the plot in Streamlit
-    st.markdown("What Makes a Good Customer ?")
-    st.markdown("A VIP comes often and spends a lot (M + F > 5)")
+    st.markdown("**What Makes a Good Customer ?**")
+    st.markdown(":blue[A VIP returns often and spends a lot (M + F > 5)]")
     st.plotly_chart(fig, use_container_width=True)
     
 # find me f key

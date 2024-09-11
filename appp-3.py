@@ -931,6 +931,24 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # st.markdown("**Change in Marginal Effects in probability of y from a 1 unit change in ind. var. ceteris paribus**")
     # st.text(marginal_effects.summary())
     
+    ## Filter significant coefficients (e.g., p-value < 0.05)
+    significant_margeff = margeff_df[margeff_df['P>|z|'] < 0.01]
+    # Plotting
+    fig, ax = plt.subplots()
+    ax.errorbar(significant_margeff.index, significant_margeff['dy/dx'], 
+                 yerr=[significant_margeff['dy/dx'] - significant_margeff['[0.025'],
+                       significant_margeff['0.975]'] - significant_margeff['dy/dx']],
+                 fmt='o', ecolor='red', capthick=2, capsize=5)
+    
+    ax.set_xlabel('Variables')
+    ax.set_ylabel('Marginal Effects')
+    ax.set_title('Significant Marginal Effects of Variables')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    
+    # Base cases note
+    base_case_note = "Base cases: Country base=Non-Australia, Instrument base=Non-Bassoon, Payment type base=Non-free"
+    plt.figtext(0.5, -0.05, base_case_note, wrap=True, horizontalalignment='center', fontsize=12)
 
 # find me f key
 # Sales grouped by Email Unsub & Payment Type    

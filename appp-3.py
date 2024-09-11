@@ -848,9 +848,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         'Loyalty Score': 'last',  # Adjust according to your data's needs
         'Recency Score': 'last',  # Adjust according to your data's needs
         'Frequency Score': 'last',  # Adjust according to your data's needs
-        'Monetary Score': 'first',  # Adjust according to your data's need
+        'Monetary Score': 'last',  # Adjust according to your data's need
         'Country': 'last',  # Assuming all entries per email are the same
-        'Payment Type': 'last',  # Assuming all entries per email are the same
+        'Payment Type': 'first',  # Assuming all entries per email are the same
     }).reset_index()
     
     # Search bar
@@ -865,7 +865,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Display the DataFrame in Streamlit
     st.markdown("**Customer :rainbow[Loyalty & RFM] Details for :rainbow[Targeted Advertising]:**")
     st.dataframe(filtered_df)
-    # REMEMBER Payment Type represents the last type used.
+    # REMEMBER Payment Type represents the first type used.
     # Step 1: Calculate the Combined MF Score (Monetary + Frequency Score)
     data = filtered_df
     data['MF Score'] = data['Monetary Score'] + data['Frequency Score']
@@ -924,7 +924,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Calculate the marginal effects
     marginal_effects = result.get_margeff()
     marginal_effects_df = marginal_effects.summary_frame()
-    # Display Regression Results. DONT MAKE CUELLAR MAD !
+    # DO NOT Display Regression Results. DONT MAKE CUELLAR MAD !
     # Filter significant coefficients (e.g., p-value < 0.05)
     significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.05]
     # Sort the DataFrame by the lower bound of the coefficient

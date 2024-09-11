@@ -935,30 +935,50 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     error_bars = [significant_margeff['dy/dx'] - significant_margeff['Conf. Int. Low'],
                   significant_margeff['Cont. Int. Hi.'] - significant_margeff['dy/dx']]
     
-    # Plotting
-    fig, ax = plt.subplots()
-    ax.errorbar(significant_margeff.index, significant_margeff['dy/dx'], 
-                 yerr=error_bars,
-                 fmt='o', color='steelblue', ecolor='lightgray', capthick=2, capsize=5, marker='o', markersize=8)
+    # Create the error bar graph
+    fig = go.Figure(data=go.Scatter(
+        x=significant_margeff.index,
+        y=significant_margeff['dy/dx'],
+        error_y=dict(
+            type='data',
+            symmetric=False,
+            array=error_y[1],
+            arrayminus=error_y[0],
+            color='red',
+            thickness=1.5,
+            width=3,
+        ),
+        mode='markers',
+        marker=dict(size=10, color='Items', opacity=0.6)  # Adjust 'color' according to your data
+    ))
     
-    ax.set_xlabel('Variables')
-    ax.set_ylabel('Marginal Effects')
-    ax.set_title('Significant Marginal Effects of Variables')
-    plt.xticks(rotation=45)
-    plt.grid(True, linestyle='--', linewidth=0.5, color='gray', alpha=0.5)  # Custom grid style
+    # Customize the layout to match the previous style
+    fig.update_layout(
+        title='Significant Marginal Effects of Variables',
+        xaxis_title="Variables",
+        yaxis_title="Marginal Effects",
+        plot_bgcolor='white',
+        paper_bgcolor='white',
+        xaxis=dict(tickangle=45),
+        font=dict(family="Times New Roman", size=12, color="black"),
+        hovermode='closest'
+    )
     
-    # Enhancing layout for clarity
-    plt.tight_layout()
-    # Base cases note, for context and clarity
-    base_case_note = "Base cases: Country base = Australia, Instrument base = Bassoon, Payment type base = Free"
-    plt.figtext(0.5, 0.01, base_case_note, wrap=True, horizontalalignment='center', fontsize=5, color='gray')
+    # Base cases note at the bottom
+    fig.add_annotation(
+        x=0.5,
+        y=-0.15,
+        xref='paper',
+        yref='paper',
+        text="Base cases: Country base=Non-US/CA, Instrument base=Non-Guitar/Piano, Payment type base=Non-Cash/Credit",
+        showarrow=False,
+        font=dict(size=12),
+        align='center'
+    )
     
-    # Display the plot in the Streamlit app
-    st.pyplot(fig)
+    # Display the plot in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
     
-
-
-
     
 # find me f key
 # Sales grouped by Email Unsub & Payment Type    

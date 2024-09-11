@@ -953,7 +953,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Customize the layout to match the previous style
     fig.update_layout(
-        title='Making a VIP',
+        title='',
         xaxis_title="",
         yaxis_title="Change in Prob. of Customer being VIP",
         plot_bgcolor='white',
@@ -972,11 +972,11 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         text="Base cases: Country: Australia, Instrument: Bassoon, Payment type: Free",
         showarrow=False,
         font=dict(size=10),
-        align='left'
+        align='center'
     )
     
     # Display the plot in Streamlit
-    st.markdown("**What Makes a VIP Customer?**")
+    st.markdown("**What Makes a VIP Customer? Lets use Logistic Regression to find out**")
     st.markdown(":blue[A VIP returns often and spends a lot (M + F > 5)]")
     st.plotly_chart(fig, use_container_width=True)
     

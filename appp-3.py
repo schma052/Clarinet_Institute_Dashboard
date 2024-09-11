@@ -1441,7 +1441,17 @@ ORDER BY Date
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
     uploaded_file_sales.seek(0) 
-    
+   
+    # 1. Set y (the dependent variable) as the 'MF Score' column
+    y = encoded_data['Email Status']
+    # 2. Set X (the independent variables) as all columns except 'MF Score'
+    X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Loyalty Score', 'Email Status'])
+    # Add a constant term to the regression
+    X = sm.add_constant(X)
+    # Optionally convert X and y to numpy arrays if required by the model
+    # X = X.values  # Converts X to a NumPy array
+    # y = y.values  # Converts y to a NumPy array
+
     model = sm.Logit(y, X)
     result = model.fit()
     # Calculate the marginal effects
@@ -1503,9 +1513,10 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Display the plot in Streamlit
     st.dataframe(filtered_df)
+    st.dataframe(X)
+    st.dataframe(y)
     st.markdown(" ")
-    st.markdown("**What Makes an Unsubscriber? Let's Use Logistic Regression to Find Out**")
-    st.plotly_chart(fig, use_container_width=True)
+    # st.plotly_chart(fig, use_container_width=True)
     
         
 

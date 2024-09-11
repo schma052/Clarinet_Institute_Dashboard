@@ -918,26 +918,25 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Add a constant term to the regression
     X = sm.add_constant(X)
     # Optionally convert X and y to numpy arrays if required by the model
-    #X = X.values  # Converts X to a NumPy array
-    #y = y.values  # Converts y to a NumPy array
+     X = X.values  # Converts X to a NumPy array
+     y = y.values  # Converts y to a NumPy array
 
-    # Convert boolean columns to integers
-    #for column in encoded_data.columns:
-        #if encoded_data[column].dtype == 'bool':
-            #encoded_data[column] = encoded_data[column].astype(int)
+    model = sm.Logit(y, X)
+    result = model.fit()
+    # Calculate the marginal effects
+    marginal_effects = result.get_margeff()
+    # Display 
+    st.markdown("**Change in Log Odds Ratio from a 1 unit change in ind. var. ceteris paribus**")
+    st.text(result.summary())
+    st.markdown("**Change in Marginal Effects in probability of y from a 1 unit change in ind. var. ceteris paribus**")
+    st.text(marginal_effects.summary())
 
-    
-    
 
-
-
-    # find me f key
-
+# find me f key
 # Sales grouped by Email Unsub & Payment Type    
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
     uploaded_file_sales.seek(0)
-    
     Payhip = pd.read_csv(uploaded_file_customer, sep = ',')
     
     # Function to use pandasql

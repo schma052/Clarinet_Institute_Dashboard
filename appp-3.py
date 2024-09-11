@@ -866,7 +866,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     st.markdown("**Customer :rainbow[Loyalty & RFM] Details for :rainbow[Targeted Advertising]:**")
     st.dataframe(filtered_df)
 
-    # What Makes a Good Customer ?
+    # What Makes a Good Customer ? And REMEMBER Payment Type represents the last type used.
     
     # Step 1: Calculate the Combined MF Score (Monetary + Frequency Score)
     data = filtered_df
@@ -915,18 +915,23 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     y = encoded_data['VIP']
     # 2. Set X (the independent variables) as all columns except 'MF Score'
     X = encoded_data.drop(columns=['VIP','MF Score', 'Monetary Score', 'Recency Score', 'Frequency Score', 'Email', 'Loyalty Score'])
+    # Add a constant term to the regression
+    X = sm.add_constant(X)
     # Optionally convert X and y to numpy arrays if required by the model
     #X = X.values  # Converts X to a NumPy array
     #y = y.values  # Converts y to a NumPy array
 
     # Convert boolean columns to integers
-    for column in encoded_data.columns:
-        if encoded_data[column].dtype == 'bool':
-            encoded_data[column] = encoded_data[column].astype(int)
+    #for column in encoded_data.columns:
+        #if encoded_data[column].dtype == 'bool':
+            #encoded_data[column] = encoded_data[column].astype(int)
+
+    
+    
+
+
+
     # find me f key
-    st.dataframe(X)
-    st.dataframe(y)
-            
 
 # Sales grouped by Email Unsub & Payment Type    
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

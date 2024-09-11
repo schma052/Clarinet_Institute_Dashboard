@@ -979,6 +979,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     st.markdown("**What Makes a VIP Customer? Lets use Logistic Regression to find out**")
     st.markdown(":blue[A VIP returns often and spends a lot (M + F > 5)]")
     st.plotly_chart(fig, use_container_width=True)
+    st.dataframe(significant_margeff)
     
 # find me f key
 # Sales grouped by Email Unsub & Payment Type    

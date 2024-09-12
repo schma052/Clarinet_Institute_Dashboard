@@ -1553,7 +1553,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         y=1.05,
         xref='paper',
         yref='paper',
-        text="Binary Base Cases: Country: Australia, Instrument: Bassoon, Payment type: Free",
+        text="Binary Base Cases: Country: Australia, Instrument: Bassoon, Payment type: Free, Email: Gmail",
         showarrow=False,
         font=dict(size=12),
         align='center'

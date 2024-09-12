@@ -942,7 +942,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # 1. Set y (the dependent variable) as the 'MF Score' column
     y = encoded_data['VIP']
     # 2. Set X (the independent variables) as all columns except 'MF Score'
-    X = encoded_data.drop(columns=['VIP','MF Score', 'Monetary Score', 'Recency Score', 'Frequency Score', 'Email', 'Loyalty Score'])
+    X = encoded_data.drop(columns=['VIP','MF Score', 'Monetary Score', 'Recency Score', 'Frequency Score', 'Email', 'Loyalty Score', 'Domain_@gmail'])
     # Add a constant term to the regression
     X = sm.add_constant(X)
     # Optionally convert X and y to numpy arrays if required by the model
@@ -1003,7 +1003,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         y=1.05,
         xref='paper',
         yref='paper',
-        text="Binary Base Cases: Country: Australia, Instrument: Bassoon, Payment type: Free",
+        text="Binary Base Cases: Country: Australia, Instrument: Bassoon, Payment type: Free, Email: Gmail",
         showarrow=False,
         font=dict(size=12),
         align='center'

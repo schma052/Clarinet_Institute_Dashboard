@@ -1179,7 +1179,58 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                     GROUP BY `Email_Domain`
                 """
                 domain_df = pysqldf(domain_query)
-                st.dataframe(domain_df)
+        
+                # Bar Graph
+                def plot_data2(df):
+                    # Create figure with secondary y-axis
+                    fig = go.Figure()
+            
+                    # Add traces
+                    fig.add_trace(
+                        go.Bar(
+                            x=df['Email_Domain'],
+                            y=df['Net Revenue'],
+                            name='Sum of Digital Sales',
+                            marker_color='navy'
+                        )
+                    )
+            
+                    fig.add_trace(
+                        go.Scatter(
+                            x=df['Email_Domian'],
+                            y=df['Avg Net Revenue'],
+                            name='Average Digital Sale',
+                            yaxis='y2',
+                            marker_color='orange'
+                        )
+                    )
+            
+                    # Add titles and labels
+                    fig.update_layout(
+                        title='Digital Sales grouped by Email Domain:',
+                        xaxis_title='',
+                        yaxis_title='Sum of Digital Sales',
+                        yaxis2=dict(
+                            title='Average Digital Sale',
+                            overlaying='y',
+                            side='right'
+                        ),
+                        plot_bgcolor='white',
+                        paper_bgcolor='white',
+                        showlegend=True,
+                        font=dict(
+                            family="Times New Roman",
+                            size=12,
+                            color="black"
+                        )
+                    )
+            
+                    return fig
+                fig = plot_data2(domain_df)
+
+                st.markdown(" ")
+                st.markdown("**Spending by Email Domain:**")
+                st.plotly_chart(fig, use_container_width=True)
 
 # Country Metrics
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

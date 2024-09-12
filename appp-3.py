@@ -1165,14 +1165,21 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                                                                   '@hotmail' if '@hotmail' in x else
                                                                   '@icloud' if '@icloud' in x else
                                                                   '@aol' if '@aol' in x else '@other')
-                # Create dummy variables and ensure they're integers (1s and 0s)
-                df_dummies = pd.get_dummies(hip_df['Email_Domain'], prefix='Domain').astype(int)
-                # Concatenate the dummy columns to the original dataframe
-                spendbyemail_df = pd.concat([hip_df, df_dummies], axis=1)
                 # Drop the original 'Email' column and everythings else
-                spendbyemail_df = spendbyemail_df.drop(['Email_Domain', 'Email'], axis=1)
+                spendbyemail_df = spendbyemail_df.drop(['Email'], axis=1)
 
-            
+                pysqldf = lambda q: sqldf(q, globals()) 
+                 domain_query = """
+                    SELECT 
+                    SUM(`Amount Net`) AS `Net Revenue`,
+                    `Email_Domain`,
+                    COUNT(`Email_Domain`) AS Count,
+                    AVG(`Amount Net`) AS `Avg Net Revenue`
+                    FROM spendbyemail_df
+                    GROUP BY `Email_Domain`
+                """
+                domain_df = pysqldf(domain_query)
+                st.dataframe(domain_query)
 
 # Country Metrics
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

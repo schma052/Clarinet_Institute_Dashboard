@@ -1157,6 +1157,7 @@ GROUP BY
     if 'Email' in Result.columns:
             # Check if the column contains readable emails
             if check_readable_emails(Result):
+                Result = Result['Email', 'Amount_Net']
                 # If readable emails are detected, create dummy columns
                 Result['Email_Domain'] = Result['Email'].apply(lambda x: '@gmail' if '@gmail' in x else
                                                                   '@yahoo' if '@yahoo' in x else
@@ -1167,8 +1168,8 @@ GROUP BY
                 df_dummies = pd.get_dummies(Result['Email_Domain'], prefix='Domain').astype(int)
                 # Concatenate the dummy columns to the original dataframe
                 encoded_df = pd.concat([Result, df_dummies], axis=1)
-                # Drop the original 'Email' column
-                encoded_df = encoded_df.drop('Email_Domain', axis=1)
+                # Drop the original 'Email' column and everythings else
+                encoded_df = encoded_df.drop('Email_Domain', '', axis=1)
 
                 st.dataframe(encoded_df)
             

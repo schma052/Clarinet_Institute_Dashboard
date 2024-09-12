@@ -1228,8 +1228,6 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                     return fig
                 fig = plot_data2(domain_df)
 
-                st.markdown(" ")
-                st.markdown("**Spending by Email Domain:**")
                 st.plotly_chart(fig, use_container_width=True)
 
 # Country Metrics

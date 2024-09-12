@@ -1197,7 +1197,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
             
                     fig.add_trace(
                         go.Scatter(
-                            x=df['Email_Domainn'],
+                            x=df['Email_Domain'],
                             y=df['Avg Net Revenue'],
                             name='Average Digital Sale',
                             yaxis='y2',

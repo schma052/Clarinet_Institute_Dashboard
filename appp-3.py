@@ -1155,6 +1155,8 @@ GROUP BY
     # Spending by Domain Graph
     # Checking if the "Email" column exists
     if 'Email' in Result.columns:
+        # Define the pysqldf function
+        pysqldf = lambda q: psql.sqldf(q, globals())
         # Check if the column contains readable emails
         if check_readable_emails(Result):
             Sqlquery = """

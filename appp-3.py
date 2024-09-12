@@ -966,7 +966,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Filter significant coefficients (e.g., p-value < 0.05)
     significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.05]
     # Sort the DataFrame by the lower bound of the coefficient
-    significant_margeff = significant_margeff.sort_values('Conf. Int. Low', ascending=True)
+    significant_margeff = significant_margeff.sort_values('dy/dx', ascending=True)
 
     # Apply a style template that's close to Streamlit's default style
     plt.style.use('ggplot')
@@ -1509,7 +1509,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Filter significant coefficients (e.g., p-value < 0.05)
     significant_margeff = marginal_effects_df[marginal_effects_df['Pr(>|z|)'] < 0.05]
     # Sort the DataFrame by the lower bound of the coefficient
-    significant_margeff = significant_margeff.sort_values('Conf. Int. Low', ascending=True)
+    significant_margeff = significant_margeff.sort_values('dy/dx', ascending=True)
 
     # Apply a style template that's close to Streamlit's default style
     plt.style.use('ggplot')

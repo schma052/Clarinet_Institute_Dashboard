@@ -1169,7 +1169,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                 spendbyemail_df = spendbyemail_df.drop(['Email'], axis=1)
 
                 pysqldf = lambda q: sqldf(q, globals()) 
-                 domain_query = """
+                domain_query = """
                     SELECT 
                     SUM(`Amount Net`) AS `Net Revenue`,
                     `Email_Domain`,

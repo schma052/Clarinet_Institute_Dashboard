@@ -1164,7 +1164,7 @@ GROUP BY
             CASE WHEN LOWER(Email) LIKE '%@gmail%' THEN 1 ELSE 0 END AS gmail,
             CASE WHEN LOWER(Email) LIKE '%@yahoo%' THEN 1 ELSE 0 END AS yahoo,
             CASE WHEN LOWER(Email) LIKE '%@icloud%' THEN 1 ELSE 0 END AS icloud,
-            CASE WHEN LOWER(Email) LIKE '%@hotmail%' THEN 1 ELSE 0 END AS hotmail
+            CASE WHEN LOWER(Email) LIKE '%@hotmail%' THEN 1 ELSE 0 END AS hotmail,
             CASE WHEN LOWER(Email) NOT LIKE '%@gmail%' AND LOWER(Email) NOT LIKE '%@yahoo%' AND LOWER(Email) NOT LIKE '%@icloud%' AND LOWER(Email) NOT LIKE '%@hotmail%' THEN 1 ELSE 0 END AS other
             FROM Result
             GROUP BY `Email`

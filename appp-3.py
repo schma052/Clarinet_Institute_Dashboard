@@ -107,11 +107,12 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     qry_df= pysqldf(qry)
 
     # Display the merged DataFrame
-    st.markdown("**Daily Sales:** :blue[Notice the slow fade into the darker digital sales]")
+    st.markdown("**Daily Sales:**")
     st.area_chart(merged_df.set_index('Date')[['Physical Sales', 'Digital Sales']], stack = True)
-    st.markdown(":blue[Digital sales improves revenue stability.]")
+    st.markdown(":blue[Notice the slow fade into the darker digital sales]")
     st.dataframe(qry_df, hide_index = True)
     st.dataframe(merged_df.describe())
+    st.markdown(":blue[Digital sales improves revenue stability.]")
     
     #Merged_df['Date'] = pd.to_datetime(Merged_df['Date'])  # Ensure the date is in datetime format
 

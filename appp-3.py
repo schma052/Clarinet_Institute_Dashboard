@@ -957,9 +957,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Customize the layout to match the previous style
     fig.update_layout(
-        title="What Makes a VIP? Let's Use Logistic Regression to Find Out",
+        title="What Makes a Top Quartile Spender? Let's Use Logistic Regression to Find Out",
         xaxis_title="Statistically Significant at a 0.05 level",
-        yaxis_title="Change in % Chance of Customer being VIP",
+        yaxis_title="Change in % Chance of a Customer being in the top 25% of Spenders",
         plot_bgcolor='white',
         paper_bgcolor='white',
         xaxis=dict(tickangle=45),
@@ -982,7 +982,6 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Display the plot in Streamlit
     st.markdown(" ")
-    st.markdown(":blue[VIPs are those in the top quartile of spenders, where Monetary Score = 4]")
     st.plotly_chart(fig, use_container_width=True)
     
     

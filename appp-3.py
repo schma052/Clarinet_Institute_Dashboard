@@ -931,7 +931,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                                                               '@icloud' if '@icloud' in x else
                                                               '@aol' if '@aol' in x else '@other')
     # Create dummy variables and ensure they're integers (1s and 0s)
-    df_dummies = pd.get_dummies(df['Email'], prefix='domain').astype(int)
+    df_dummies = pd.get_dummies(encoded_data['Email_Domain'], prefix='Domain').astype(int)
     # Concatenate the dummy columns to the original dataframe
     encoded_data = pd.concat([encoded_data, df_dummies], axis=1)
     # Drop the original 'Email' column

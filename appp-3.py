@@ -1172,7 +1172,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                 # Drop the original 'Email' column and everythings else
                 spendbyemail_df = spendbyemail_df.drop(['Email_Domain', 'Email'], axis=1)
 
-                st.dataframe(spendbyemail_df.describe)
+                st.text(spendbyemail_df.describe)
             
 
 # Country Metrics

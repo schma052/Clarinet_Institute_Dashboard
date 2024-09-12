@@ -937,8 +937,6 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Drop the original 'Email' column
     encoded_data = encoded_data.drop('Email_Domain', axis=1)
 
-    st.dataframe(encoded_data)
-    # you're my only hope
     # 1. Set y (the dependent variable) as the 'MF Score' column
     y = encoded_data['VIP']
     # 2. Set X (the independent variables) as all columns except 'MF Score'
@@ -1471,7 +1469,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # 1. Set y (the dependent variable) as the 'MF Score' column
     y = encoded_data['Email Status_unsub']
     # 2. Set X (the independent variables) as all columns except 'MF Score'
-    X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Email Status_unsub'])
+    X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Email Status_unsub', 'Domain_@gmail'])
     # Add a constant term to the regression
     X = sm.add_constant(X)
     # Optionally convert X and y to numpy arrays if required by the model

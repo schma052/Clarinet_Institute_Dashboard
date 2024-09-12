@@ -931,7 +931,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                                                               '@icloud' if '@icloud' in x else
                                                               '@aol' if '@aol' in x else '@other')
 
-    st.dataframe(endcoded_data)
+    st.dataframe(encoded_data)
     # you're my only hope
     # 1. Set y (the dependent variable) as the 'MF Score' column
     y = encoded_data['VIP']

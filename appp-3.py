@@ -1179,7 +1179,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                     GROUP BY `Email_Domain`
                 """
                 domain_df = pysqldf(domain_query)
-                st.dataframe(domain_query)
+                st.dataframe(domain_df)
 
 # Country Metrics
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

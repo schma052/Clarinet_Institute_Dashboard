@@ -1019,6 +1019,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Display the plot in Streamlit
     st.markdown(" ")
+    st.text(marginal_effects_df)
     st.plotly_chart(fig, use_container_width=True)
     
     

@@ -355,8 +355,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Display the plot in Streamlit
     weekly_fig = plot_weekly_sales(weekly_data_sorted)
     st.plotly_chart(weekly_fig, use_container_width=True)
-    st.markdown(":blue[We see the positive impacts from Tuesday morning advertising on both physical and digital products. When digging deeper, serperate from this dashboard, using statistical methods including the distributed lag model, its infinite counterpart, multinomial logit, mixed effects models, and VAR, all agree that Tuesday's advertising is significantly impacting sales.]")
-
+    st.markdown(":blue[We see the positive impacts from Tuesday morning advertising on both physical and digital products. When digging deeper, serperate from this dashboard, using statistical methods including the distributed lag model, its infinite counterpart, multinomial logit, mixed effects models, and VAR, all agree that Tuesday's advertising is significantly impacting sales very similarly to what can be seen above.]")
+    st.text(" ")
+    
 # Adv Impact on Items (Adv Occurs Tuesday Morning)
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading

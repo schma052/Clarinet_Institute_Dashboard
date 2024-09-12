@@ -1166,7 +1166,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                                                                   '@icloud' if '@icloud' in x else
                                                                   '@aol' if '@aol' in x else '@other')
                 # Drop the original 'Email' column and everythings else
-                spendbyemail_df = spendbyemail_df.drop(['Email'], axis=1)
+                spendbyemail_df = hip_df.drop('Email', axis=1)
 
                 pysqldf = lambda q: sqldf(q, globals()) 
                 domain_query = """

@@ -1152,7 +1152,7 @@ GROUP BY
     st.markdown(" ")
 
 
-# Spending by Domain Graph
+# Spending by Email Domain 
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
     uploaded_file_sales.seek(0)    
@@ -1170,7 +1170,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                 # Concatenate the dummy columns to the original dataframe
                 spendbyemail_df = pd.concat([hip_df, df_dummies], axis=1)
                 # Drop the original 'Email' column and everythings else
-                spendbyemail_df = spendbyemail_df.drop('Email_Domain', '', axis=1)
+                spendbyemail_df = spendbyemail_df.drop('Email_Domain', axis=1)
 
                 st.dataframe(spendbyemail_df)
             

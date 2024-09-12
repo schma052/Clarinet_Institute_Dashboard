@@ -1171,10 +1171,10 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                 pysqldf = lambda q: sqldf(q, globals()) 
                 domain_query = """
                     SELECT 
-                    SUM(`Amount Net`) AS `Net Revenue`,
                     `Email_Domain`,
-                    COUNT(`Email_Domain`) AS Count,
-                    AVG(`Amount Net`) AS `Avg Net Revenue`
+                    SUM(`Amount Net`) AS `Net Revenue`,
+                    AVG(`Amount Net`) AS `Avg Net Revenue`,
+                    COUNT(`Email_Domain`) AS Count
                     FROM spendbyemail_df
                     GROUP BY `Email_Domain`
                 """
@@ -1229,7 +1229,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                 fig = plot_data2(domain_df)
 
                 st.plotly_chart(fig, use_container_width=True)
-
+                st.dataframe(domain_df)
+        
 # Country Metrics
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       

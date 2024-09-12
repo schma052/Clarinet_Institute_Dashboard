@@ -1480,25 +1480,25 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     if 'Email' in encoded_data.columns:
         # Check if the column contains readable emails
         if check_readable_emails(encoded_data):
-        # 1. Set y (the dependent variable) as the 'MF Score' column
-        y = encoded_data['Email Status_unsub']
-        # 2. Set X (the independent variables) as all columns except 'MF Score'
-        X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Email Status_unsub', 'Domain_@gmail'])
-        # Add a constant term to the regression
-        X = sm.add_constant(X)
-        # Optionally convert X and y to numpy arrays if required by the model
-        # X = X.values  # Converts X to a NumPy array
-        # y = y.values  # Converts y to a NumPy array
-    else:
-         # 1. Set y (the dependent variable) as the 'MF Score' column
-        y = encoded_data['Email Status_unsub']
-        # 2. Set X (the independent variables) as all columns except 'MF Score'
-        X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Email Status_unsub'])
-        # Add a constant term to the regression
-        X = sm.add_constant(X)
-        # Optionally convert X and y to numpy arrays if required by the model
-        # X = X.values  # Converts X to a NumPy array
-        # y = y.values  # Converts y to a NumPy array
+            # 1. Set y (the dependent variable) as the 'MF Score' column
+            y = encoded_data['Email Status_unsub']
+            # 2. Set X (the independent variables) as all columns except 'MF Score'
+            X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Email Status_unsub', 'Domain_@gmail'])
+            # Add a constant term to the regression
+            X = sm.add_constant(X)
+            # Optionally convert X and y to numpy arrays if required by the model
+            # X = X.values  # Converts X to a NumPy array
+            # y = y.values  # Converts y to a NumPy array
+        else:
+             # 1. Set y (the dependent variable) as the 'MF Score' column
+            y = encoded_data['Email Status_unsub']
+            # 2. Set X (the independent variables) as all columns except 'MF Score'
+            X = encoded_data.drop(columns=['VIP','MF Score', 'Email', 'Email Status_unsub'])
+            # Add a constant term to the regression
+            X = sm.add_constant(X)
+            # Optionally convert X and y to numpy arrays if required by the model
+            # X = X.values  # Converts X to a NumPy array
+            # y = y.values  # Converts y to a NumPy array
 
     model = sm.Logit(y, X)
     result = model.fit()

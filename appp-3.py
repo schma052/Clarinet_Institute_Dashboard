@@ -1152,26 +1152,27 @@ GROUP BY
     st.markdown(" ")
 
 
-    # Spending by Domain Graph
-    # Checking if the "Email" column exists
-    if 'Email' in Result.columns:
-            # Check if the column contains readable emails
-            if check_readable_emails(Result):
-                Result = Result[['Email', 'Amount Net']]
-                # If readable emails are detected, create dummy columns
-                Result['Email_Domain'] = Result['Email'].apply(lambda x: '@gmail' if '@gmail' in x else
+# Spending by Domain Graph
+if uploaded_file_sales is not None and uploaded_file_customer is not None:
+    uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
+    uploaded_file_sales.seek(0)    
+    
+    hip_df = pd.read_csv(uploaded_file_customer, sep=',')
+    hip_df = hip_df[["Amount Net", 'Email']]
+    if check_readable_emails(hip_df):
+                hip_df['Email_Domain'] = hip_df['Email'].apply(lambda x: '@gmail' if '@gmail' in x else
                                                                   '@yahoo' if '@yahoo' in x else
                                                                   '@hotmail' if '@hotmail' in x else
                                                                   '@icloud' if '@icloud' in x else
                                                                   '@aol' if '@aol' in x else '@other')
                 # Create dummy variables and ensure they're integers (1s and 0s)
-                df_dummies = pd.get_dummies(Result['Email_Domain'], prefix='Domain').astype(int)
+                df_dummies = pd.get_dummies(hip_df['Email_Domain'], prefix='Domain').astype(int)
                 # Concatenate the dummy columns to the original dataframe
-                encoded_df = pd.concat([Result, df_dummies], axis=1)
+                spendbyemail_df = pd.concat([hip_df, df_dummies], axis=1)
                 # Drop the original 'Email' column and everythings else
-                encoded_df = encoded_df.drop('Email_Domain', '', axis=1)
+                spendbyemail_df = spendbyemail_df.drop('Email_Domain', '', axis=1)
 
-                st.dataframe(encoded_df)
+                st.dataframe(spendbyemail_df)
             
 
 # Country Metrics

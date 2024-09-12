@@ -946,7 +946,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
             # Optionally convert X and y to numpy arrays if required by the model
             # X = X.values  # Converts X to a NumPy array
             # y = y.values  # Converts y to a NumPy array
-        else
+        else:
                 # 1. Set y (the dependent variable) as the 'MF Score' column
             y = encoded_data['VIP']
             # 2. Set X (the independent variables) as all columns except 'MF Score'
@@ -1489,7 +1489,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         # Optionally convert X and y to numpy arrays if required by the model
         # X = X.values  # Converts X to a NumPy array
         # y = y.values  # Converts y to a NumPy array
-    else
+    else:
          # 1. Set y (the dependent variable) as the 'MF Score' column
         y = encoded_data['Email Status_unsub']
         # 2. Set X (the independent variables) as all columns except 'MF Score'

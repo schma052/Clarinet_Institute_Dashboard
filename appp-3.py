@@ -1150,7 +1150,31 @@ GROUP BY
     st.markdown(":violet[We can see that purchases with the **Free** payment type have not spent a dime, conversely it also has the highest probabilty of a VIP in the Payment Type category. This is becasue the payment type variable corresponds **only** to the most recent payment type used by the customer. Free means they recieved a free product from customer service as their most recent order.]")
     st.markdown(":blue[**From this we glean that those reaching out to customer service are already the biggest spenders**]")
     st.markdown(" ")
-    
+
+
+    # Spending by Domain Graph
+    # Checking if the "Email" column exists
+    if 'Email' in Result.columns:
+        # Check if the column contains readable emails
+        if check_readable_emails(Result):
+            Sqlquery = """
+            Select SUM(`Amount Net`) AS amount_net, 
+            AVG(`Amount Net`) AS amount_net_avg,
+            `Email`
+            CASE WHEN LOWER(Email) LIKE '%@gmail%' THEN 1 ELSE 0 END AS gmail,
+            CASE WHEN LOWER(Email) LIKE '%@yahoo%' THEN 1 ELSE 0 END AS yahoo,
+            CASE WHEN LOWER(Email) LIKE '%@icloud%' THEN 1 ELSE 0 END AS icloud,
+            CASE WHEN LOWER(Email) LIKE '%@hotmail%' THEN 1 ELSE 0 END AS hotmail
+            CASE WHEN LOWER(Email) NOT LIKE '%@gmail%' AND LOWER(Email) NOT LIKE '%@yahoo%' AND LOWER(Email) NOT LIKE '%@icloud%' AND LOWER(Email) NOT LIKE '%@hotmail%' THEN 1 ELSE 0 END AS other
+            FROM Result
+            GROUP BY `Email`
+            """
+            df = pysqldf(Sqlquery)
+            st.dataframe(df)
+
+            
+            
+
 # Country Metrics
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       

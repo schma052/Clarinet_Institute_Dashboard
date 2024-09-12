@@ -930,6 +930,12 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                                                               '@hotmail' if '@hotmail' in x else
                                                               '@icloud' if '@icloud' in x else
                                                               '@aol' if '@aol' in x else '@other')
+    # Create dummy variables and ensure they're integers (1s and 0s)
+    df_dummies = pd.get_dummies(df['Email'], prefix='domain').astype(int)
+    # Concatenate the dummy columns to the original dataframe
+    encoded_data = pd.concat([encoded_data, df_dummies], axis=1)
+    # Drop the original 'Email' column
+    encoded_data = encoded_data.drop('Email_Domain', axis=1)
 
     st.dataframe(encoded_data)
     # you're my only hope

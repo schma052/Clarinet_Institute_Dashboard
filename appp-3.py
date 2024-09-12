@@ -1536,7 +1536,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     
     # Customize the layout to match the previous style
     fig.update_layout(
-        title="Showing What Makes an Email Unsubscriber with Logistic Regression?",
+        title="Showing What Makes an Email Unsubscriber with Logistic Regression",
         xaxis_title="Statistically Significant at a 0.05 level",
         yaxis_title="Change in % Chance of Customer Unsubscribing",
         plot_bgcolor='white',

@@ -1155,26 +1155,22 @@ GROUP BY
     # Spending by Domain Graph
     # Checking if the "Email" column exists
     if 'Email' in Result.columns:
-        # Define the pysqldf function
-        pysqldf = lambda q: psql.sqldf(q, globals())
-        # Check if the column contains readable emails
-        if check_readable_emails(Result):
-            Sqlquery = """
-            Select SUM(`Amount Net`) AS amount_net, 
-            AVG(`Amount Net`) AS amount_net_avg,
-            `Email`
-            CASE WHEN LOWER(Email) LIKE '%@gmail%' THEN 1 ELSE 0 END AS gmail,
-            CASE WHEN LOWER(Email) LIKE '%@yahoo%' THEN 1 ELSE 0 END AS yahoo,
-            CASE WHEN LOWER(Email) LIKE '%@icloud%' THEN 1 ELSE 0 END AS icloud,
-            CASE WHEN LOWER(Email) LIKE '%@hotmail%' THEN 1 ELSE 0 END AS hotmail,
-            CASE WHEN LOWER(Email) NOT LIKE '%@gmail%' AND LOWER(Email) NOT LIKE '%@yahoo%' AND LOWER(Email) NOT LIKE '%@icloud%' AND LOWER(Email) NOT LIKE '%@hotmail%' THEN 1 ELSE 0 END AS other
-            FROM Result
-            GROUP BY `Email`
-            """
-            df = pysqldf(Sqlquery)
-            st.dataframe(df)
+            # Check if the column contains readable emails
+            if check_readable_emails(Result):
+                # If readable emails are detected, create dummy columns
+                Result['Email_Domain'] = Result['Email'].apply(lambda x: '@gmail' if '@gmail' in x else
+                                                                  '@yahoo' if '@yahoo' in x else
+                                                                  '@hotmail' if '@hotmail' in x else
+                                                                  '@icloud' if '@icloud' in x else
+                                                                  '@aol' if '@aol' in x else '@other')
+                # Create dummy variables and ensure they're integers (1s and 0s)
+                df_dummies = pd.get_dummies(Result['Email_Domain'], prefix='Domain').astype(int)
+                # Concatenate the dummy columns to the original dataframe
+                encoded_df = pd.concat([Result, df_dummies], axis=1)
+                # Drop the original 'Email' column
+                encoded_df = encoded_df.drop('Email_Domain', axis=1)
 
-            
+                st.dataframe(encoded_df)
             
 
 # Country Metrics

@@ -1157,7 +1157,7 @@ GROUP BY
     if 'Email' in Result.columns:
             # Check if the column contains readable emails
             if check_readable_emails(Result):
-                Result = Result[['Email', 'Amount_Net']]
+                Result = Result[['Email', 'Amount Net']]
                 # If readable emails are detected, create dummy columns
                 Result['Email_Domain'] = Result['Email'].apply(lambda x: '@gmail' if '@gmail' in x else
                                                                   '@yahoo' if '@yahoo' in x else

@@ -910,7 +910,29 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Create a new column 'binary_var' with 1 if 'original_var' > 5, else 0
     encoded_data['VIP'] = (encoded_data['Monetary Score'] > 3).astype(int)
 
-    
+    # Function to detect readable emails
+    def check_readable_emails(df):
+        email_domains = ["@gmail", "@yahoo", "@hotmail", "@icloud", "@aol"]
+        
+        # Checking if any email in the "Email" column contains one of the domain strings
+        if encoded_data['Email'].str.contains('|'.join(email_domains)).any():
+            return True
+        else:
+            return False
+
+    # Checking if the "Email" column exists
+    if 'Email' in encoded_data.columns:
+        # Check if the column contains readable emails
+        if check_readable_emails(encoded_data):
+            # If readable emails are detected, create dummy columns
+            encoded_data['Email_Domain'] = encoded_data['Email'].apply(lambda x: '@gmail' if '@gmail' in x else
+                                                              '@yahoo' if '@yahoo' in x else
+                                                              '@hotmail' if '@hotmail' in x else
+                                                              '@icloud' if '@icloud' in x else
+                                                              '@aol' if '@aol' in x else '@other')
+
+    st.dataframe(endcoded_data)
+    # you're my only hope
     # 1. Set y (the dependent variable) as the 'MF Score' column
     y = encoded_data['VIP']
     # 2. Set X (the independent variables) as all columns except 'MF Score'

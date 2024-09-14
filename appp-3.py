@@ -856,7 +856,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     }).reset_index()
     
     # Search bar
-    search_query = st.text_input("Enter search term (Email, Country, Keywords, etc.)", "")
+    # search_query = st.text_input("Enter search term (Email, Country, Keywords, etc.)", "")
 
     # Filter the DataFrame based on the search query
     if search_query:

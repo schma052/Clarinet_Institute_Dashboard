@@ -859,14 +859,15 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # search_query = st.text_input("Enter search term (Email, Country, Keywords, etc.)", "")
 
     # Filter the DataFrame based on the search query
-    if search_query:
-        filtered_df = grouped_table[grouped_table.apply(lambda row: row.astype(str).str.contains(search_query, case=False, regex=True).any(), axis=1)]
-    else:
-        filtered_df = grouped_table
+    # if search_query:
+        # filtered_df = grouped_table[grouped_table.apply(lambda row: row.astype(str).str.contains(search_query, case=False, regex=True).any(), axis=1)]
+    # else:
+        # filtered_df = grouped_table
 
     # Display the DataFrame in Streamlit
     st.markdown("**Customer :rainbow[Loyalty & RFM] Details for :rainbow[Targeted Advertising]:**")
     st.dataframe(filtered_df)
+    
     # REMEMBER Payment Type represents the first type used.
     # Step 1: Calculate the Combined MF Score (Monetary + Frequency Score)
     data = filtered_df

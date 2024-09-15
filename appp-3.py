@@ -1186,7 +1186,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                     # Create figure with secondary y-axis
                     # Calculate total count to find percentages
                     total_count = df['Count'].sum()
-                    df['Percentage'] = (df['Count'] / total_count * 100).round(2)  # Calculate and round the percentage
+                    df['Count Percentage'] = (df['Count'] / total_count * 100).round(2)  # Calculate and round the percentage
                     
                     fig = go.Figure()
             
@@ -1197,7 +1197,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                             y=df['Net Revenue'],
                             name='Sum of Digital Sales',
                             marker_color='navy',
-                            text=['Count: ' + str(x) for x in df['Count']],
+                            text=['Count: ' + str(x) for x in df['Domain #:']],
                             textposition='outside',
                             textfont=dict(  # Adjust the font size and color here
                                 size=8,  # Set the font size

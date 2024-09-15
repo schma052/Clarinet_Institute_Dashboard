@@ -1641,7 +1641,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     )
     
     # Display the plot in Streamlit
-    st.markdown("This graph is modified by the search bar above Loyalty & RFM")
+    st.markdown("This graph is modified by the search bar above Loyalty & RFM:")
     st.plotly_chart(fig, use_container_width=True)
     st.markdown(":blue[Europeans are unsubscribing, but their favorite products are keeping them here. Marketing strategies are being re-designed to boost European engagement.]")
 

@@ -1183,6 +1183,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
         
                 # Bar Graph
                 def plot_data2(df):
+                    # Prepare text labels that include "Count:" and the actual count value
+                    text_labels = ['Count: ' + str(count) for count in df['Count']]
                     # Create figure with secondary y-axis
                     fig = go.Figure()
             
@@ -1193,7 +1195,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                             y=df['Net Revenue'],
                             name='Sum of Digital Sales',
                             marker_color='navy',
-                            text=df['Count'],
+                            text=text_labels,
                             textposition='outside'
                         )
                     )

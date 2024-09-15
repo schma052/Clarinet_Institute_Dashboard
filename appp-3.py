@@ -1200,7 +1200,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                             text=['Q: ' + str(x) for x in df['Count']],
                             textposition='outside',
                             textfont=dict(  # Adjust the font size and color here
-                                size=6,  # Set the font size
+                                size=7,  # Set the font size
                                 color='black'  # Set the font color
                             )
                         )

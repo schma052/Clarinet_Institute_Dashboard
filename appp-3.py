@@ -1240,7 +1240,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                 fig = plot_data2(domain_df)
 
                 st.plotly_chart(fig, use_container_width=True)
-                st.dataframe(domain_df)
+
         
 # Country Metrics
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

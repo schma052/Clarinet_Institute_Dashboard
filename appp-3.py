@@ -1192,7 +1192,9 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                             x=df['Email_Domain'],
                             y=df['Net Revenue'],
                             name='Sum of Digital Sales',
-                            marker_color='navy'
+                            marker_color='navy',
+                            text=df['Count'],
+                            textposition='outside'
                         )
                     )
             

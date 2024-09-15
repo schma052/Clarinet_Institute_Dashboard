@@ -1184,6 +1184,10 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                 # Bar Graph
                 def plot_data2(df):
                     # Create figure with secondary y-axis
+                    # Calculate total count to find percentages
+                    total_count = df['Count'].sum()
+                    df['Percentage'] = (df['Count'] / total_count * 100).round(2)  # Calculate and round the percentage
+                    
                     fig = go.Figure()
             
                     # Add traces
@@ -1193,7 +1197,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                             y=df['Net Revenue'],
                             name='Sum of Digital Sales',
                             marker_color='navy',
-                            text=['Count: ' + str(count) for count in df['Count']],
+                            text=[f'{x}%' for x in df['Percentage']],
                             textposition='outside',
                             textfont=dict(  # Adjust the font size and color here
                                 size=8,  # Set the font size

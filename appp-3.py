@@ -1197,7 +1197,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
                             y=df['Net Revenue'],
                             name='Sum of Digital Sales',
                             marker_color='navy',
-                            text=['Count: ' + str(x) for x in df['Domain #:']],
+                            text=['Domain #: ' + str(x) for x in df['Count']],
                             textposition='outside',
                             textfont=dict(  # Adjust the font size and color here
                                 size=8,  # Set the font size

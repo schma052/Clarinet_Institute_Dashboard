@@ -365,11 +365,6 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Items are in _customer
     PH_df = pd.read_csv(uploaded_file_customer, sep = ',')  
     
-    # Rename the 'Amount Net' column to 'Sales'
-# Rename the 'Amount Net' column to 'Sales'
-    PH_df.rename(columns={'Items In Cart': 'Items', 'Country Name': 'Country', 
-                          'Unsubscribed From Email Updates': 'Email Unsub'}, inplace=True)
-    
     pysqldf = lambda q: sqldf(q, globals())  
 
     kw_day_q = """
@@ -495,6 +490,59 @@ GROUP BY Country, Day
     # Display Items Through Advertising Cycle
     st.write("**Items Through Advertising Cycle:**")
 
+    # Graph For Keyword Sums 
+    pysqldf = lambda q: sqldf(q, globals())  
+
+    keyword_sum_q = """
+SELECT
+    SUM(clarinet) AS clarinet,
+    SUM(oboe) AS oboe,
+    SUM(flute) AS flute,
+    SUM(recorder) AS recorder,
+    SUM(saxophone) AS saxophone,
+    SUM(brass) AS brass,
+    SUM(trombone) AS trombone,
+    SUM(bassoon) AS bassoon,
+    SUM(trumpet) AS trumpet,
+    SUM(frenchhorn) AS frenchhorn,
+    SUM(woodwind) AS woodwind,
+    SUM(tuba) AS tuba,
+    SUM(euphonium) AS euphonium,
+    SUM(cello) AS cello,
+    SUM(soundfiles) AS soundfiles,
+    SUM(string) AS string
+FROM
+    (SELECT
+        Date,
+        CASE WHEN LOWER(Items) LIKE '%clarinet%' THEN 1 ELSE 0 END AS clarinet,
+        CASE WHEN LOWER(Items) LIKE '%oboe%' THEN 1 ELSE 0 END AS oboe,
+        CASE WHEN LOWER(Items) LIKE '%flute%' THEN 1 ELSE 0 END AS flute,
+        CASE WHEN LOWER(Items) LIKE '%recorder%' THEN 1 ELSE 0 END AS recorder,
+        CASE WHEN LOWER(Items) LIKE '%saxophone%' THEN 1 ELSE 0 END AS saxophone,
+        CASE WHEN LOWER(Items) LIKE '%brass%' THEN 1 ELSE 0 END AS brass,
+        CASE WHEN LOWER(Items) LIKE '%trombone%' THEN 1 ELSE 0 END AS trombone,
+        CASE WHEN LOWER(Items) LIKE '%bassoon%' THEN 1 ELSE 0 END AS bassoon,
+        CASE WHEN LOWER(Items) LIKE '%trumpet%' THEN 1 ELSE 0 END AS trumpet,
+        CASE WHEN LOWER(Items) LIKE '%french_horn%' THEN 1 ELSE 0 END AS 'frenchhorn',
+        CASE WHEN LOWER(Items) LIKE '%ww%' THEN 1 ELSE 0 END AS woodwind,
+        CASE WHEN LOWER(Items) LIKE '%tuba%' THEN 1 ELSE 0 END AS tuba,
+        CASE WHEN LOWER(Items) LIKE '%euphonium%' THEN 1 ELSE 0 END AS euphonium,
+        CASE WHEN LOWER(Items) LIKE '%cello%' THEN 1 ELSE 0 END AS cello,
+        CASE WHEN LOWER(Items) LIKE '%sound_files%' THEN 1 ELSE 0 END AS 'soundfiles',
+        CASE WHEN LOWER(Items) LIKE '%string%' THEN 1 ELSE 0 END AS string
+    FROM PH_df
+    WHERE 
+        LOWER(Email) NOT IN ('brahms23@yahoo.com', 'brahms23@yahoo.com', 'brahms23@gmail.com')
+        OR LOWER(Items) NOT IN ('aa clarinet 1 evaluation', 'aa clarinet 2 evaluation')
+        OR LOWER(`Payment Type`) NOT IN ('free')
+    )
+"""
+        keywords_sum_df = pysqldf(keywords_sum_q)
+        st.dataframe(keywords_sum_df)
+
+
+
+
     # First, set the 'Day' column as the index if it's not already
     if 'Day' not in dkw_df.columns:
         dkw_df = dkw_df.set_index('Day')
@@ -520,7 +568,8 @@ GROUP BY Country, Day
 
     st.markdown(":blue[Advertising impact changes depending on the item, item type, and the country.]")
     st.markdown(" ")
-    
+
+
 # Table for Items 
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading

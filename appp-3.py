@@ -365,7 +365,12 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Items are in _customer
     PH_df = pd.read_csv(uploaded_file_customer, sep = ',')  
     
-    pysqldf = lambda q: sqldf(q, globals())
+    # Rename the 'Amount Net' column to 'Sales'
+# Rename the 'Amount Net' column to 'Sales'
+    PH_df.rename(columns={'Items In Cart': 'Items', 'Country Name': 'Country', 
+                          'Unsubscribed From Email Updates': 'Email Unsub'}, inplace=True)
+    
+    pysqldf = lambda q: sqldf(q, globals())  
 
     kw_day_q = """
 SELECT
@@ -490,7 +495,6 @@ GROUP BY Country, Day
     # Display Items Through Advertising Cycle
     st.write("**Items Through Advertising Cycle:**")
 
-
     # First, set the 'Day' column as the index if it's not already
     if 'Day' not in dkw_df.columns:
         dkw_df = dkw_df.set_index('Day')
@@ -516,7 +520,7 @@ GROUP BY Country, Day
 
     st.markdown(":blue[Advertising impact changes depending on the item, item type, and the country.]")
     st.markdown(" ")
-
+    
 # Table for Items 
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading
@@ -1652,6 +1656,5 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     st.markdown(":blue[Europeans are unsubscribing, but their favorite products are keeping them here. Marketing strategies are being re-designed to boost European engagement.]")
 
     
-        
 
     

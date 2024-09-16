@@ -491,8 +491,38 @@ GROUP BY Country, Day
     # Display Items Through Advertising Cycle
     st.write("**Items Through Advertising Cycle:**")
 
-    # Graph For Keyword Sums 
 
+    # First, set the 'Day' column as the index if it's not already
+    if 'Day' not in dkw_df.columns:
+        dkw_df = dkw_df.set_index('Day')
+
+    # Number of columns to display checkboxes in a single row
+    num_columns = 5  # You can adjust this number based on your preference or screen size
+    columns = st.columns(num_columns)
+
+    # Create a dictionary to hold the checkbox state for each instrument, placed in a horizontal layout
+    selected_instruments = {}
+    for i, instrument in enumerate(instruments):
+        with columns[i % num_columns]:  # This will distribute checkboxes across the columns
+            selected_instruments[instrument] = st.checkbox(instrument, True)
+
+    # Filter the DataFrame based on selected instruments
+    selected_columns = [inst for inst, selected in selected_instruments.items() if selected]
+
+    # Show the bar chart if there are any selected columns
+    if selected_columns:
+        st.bar_chart(dkw_df[selected_columns], stack=False)
+    else:
+        st.markdown(":red[Please select at least one instrument to display the chart.]")
+
+    st.markdown(":blue[Advertising impact changes depending on the item, item type, and the country.]")
+    st.markdown(" ")
+
+# Graph For Keyword Sums 
+if uploaded_file_sales is not None and uploaded_file_customer is not None:
+    uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading
+
+    Ph_Df = pd.read_csv(uploaded_file_customer, sep = ',')
     keyword_sum_q = """
 SELECT
     SUM(clarinet) AS clarinet,
@@ -530,7 +560,7 @@ FROM
         CASE WHEN LOWER(Items) LIKE '%cello%' THEN 1 ELSE 0 END AS cello,
         CASE WHEN LOWER(Items) LIKE '%sound_files%' THEN 1 ELSE 0 END AS 'soundfiles',
         CASE WHEN LOWER(Items) LIKE '%string%' THEN 1 ELSE 0 END AS string
-    FROM PH_df
+    FROM Ph_Df
     WHERE 
         LOWER(Email) NOT IN ('brahms23@yahoo.com', 'brahms23@yahoo.com', 'brahms23@gmail.com')
         OR LOWER(Items) NOT IN ('aa clarinet 1 evaluation', 'aa clarinet 2 evaluation')
@@ -539,35 +569,6 @@ FROM
 """
     keywords_sum_df = pysqldf(keywords_sum_q)
     st.dataframe(keywords_sum_df)
-
-
-
-
-    # First, set the 'Day' column as the index if it's not already
-    if 'Day' not in dkw_df.columns:
-        dkw_df = dkw_df.set_index('Day')
-
-    # Number of columns to display checkboxes in a single row
-    num_columns = 5  # You can adjust this number based on your preference or screen size
-    columns = st.columns(num_columns)
-
-    # Create a dictionary to hold the checkbox state for each instrument, placed in a horizontal layout
-    selected_instruments = {}
-    for i, instrument in enumerate(instruments):
-        with columns[i % num_columns]:  # This will distribute checkboxes across the columns
-            selected_instruments[instrument] = st.checkbox(instrument, True)
-
-    # Filter the DataFrame based on selected instruments
-    selected_columns = [inst for inst, selected in selected_instruments.items() if selected]
-
-    # Show the bar chart if there are any selected columns
-    if selected_columns:
-        st.bar_chart(dkw_df[selected_columns], stack=False)
-    else:
-        st.markdown(":red[Please select at least one instrument to display the chart.]")
-
-    st.markdown(":blue[Advertising impact changes depending on the item, item type, and the country.]")
-    st.markdown(" ")
 
 
 # Table for Items 

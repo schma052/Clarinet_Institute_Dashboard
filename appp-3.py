@@ -537,8 +537,8 @@ FROM
         OR LOWER(`Payment Type`) NOT IN ('free')
     )
 """
-        keywords_sum_df = pysqldf(keywords_sum_q)
-        st.dataframe(keywords_sum_df)
+    keywords_sum_df = pysqldf(keywords_sum_q)
+    st.dataframe(keywords_sum_df)
 
 
 

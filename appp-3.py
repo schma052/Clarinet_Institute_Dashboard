@@ -524,55 +524,29 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
     Ph_Df = pd.read_csv(uploaded_file_customer, sep = ',')
 
-    # Define a function to use pandasql
-    pysqldf = lambda q: sqldf(q, globals())
-    
-    keyword_sum_q = """
-SELECT
-    SUM(clarinet) AS clarinet,
-    SUM(oboe) AS oboe,
-    SUM(flute) AS flute,
-    SUM(recorder) AS recorder,
-    SUM(saxophone) AS saxophone,
-    SUM(brass) AS brass,
-    SUM(trombone) AS trombone,
-    SUM(bassoon) AS bassoon,
-    SUM(trumpet) AS trumpet,
-    SUM(frenchhorn) AS frenchhorn,
-    SUM(woodwind) AS woodwind,
-    SUM(tuba) AS tuba,
-    SUM(euphonium) AS euphonium,
-    SUM(cello) AS cello,
-    SUM(soundfiles) AS soundfiles,
-    SUM(string) AS string
-FROM
-    (SELECT
-        Date,
-        CASE WHEN LOWER(Items) LIKE '%clarinet%' THEN 1 ELSE 0 END AS clarinet,
-        CASE WHEN LOWER(Items) LIKE '%oboe%' THEN 1 ELSE 0 END AS oboe,
-        CASE WHEN LOWER(Items) LIKE '%flute%' THEN 1 ELSE 0 END AS flute,
-        CASE WHEN LOWER(Items) LIKE '%recorder%' THEN 1 ELSE 0 END AS recorder,
-        CASE WHEN LOWER(Items) LIKE '%saxophone%' THEN 1 ELSE 0 END AS saxophone,
-        CASE WHEN LOWER(Items) LIKE '%brass%' THEN 1 ELSE 0 END AS brass,
-        CASE WHEN LOWER(Items) LIKE '%trombone%' THEN 1 ELSE 0 END AS trombone,
-        CASE WHEN LOWER(Items) LIKE '%bassoon%' THEN 1 ELSE 0 END AS bassoon,
-        CASE WHEN LOWER(Items) LIKE '%trumpet%' THEN 1 ELSE 0 END AS trumpet,
-        CASE WHEN LOWER(Items) LIKE '%french_horn%' THEN 1 ELSE 0 END AS 'frenchhorn',
-        CASE WHEN LOWER(Items) LIKE '%ww%' THEN 1 ELSE 0 END AS woodwind,
-        CASE WHEN LOWER(Items) LIKE '%tuba%' THEN 1 ELSE 0 END AS tuba,
-        CASE WHEN LOWER(Items) LIKE '%euphonium%' THEN 1 ELSE 0 END AS euphonium,
-        CASE WHEN LOWER(Items) LIKE '%cello%' THEN 1 ELSE 0 END AS cello,
-        CASE WHEN LOWER(Items) LIKE '%sound_files%' THEN 1 ELSE 0 END AS 'soundfiles',
-        CASE WHEN LOWER(Items) LIKE '%string%' THEN 1 ELSE 0 END AS string
-    FROM Ph_Df
-    WHERE 
-        LOWER(Email) NOT IN ('brahms23@yahoo.com', 'brahms23@yahoo.com', 'brahms23@gmail.com')
-        OR LOWER(Items) NOT IN ('aa clarinet 1 evaluation', 'aa clarinet 2 evaluation')
-        OR LOWER(`Payment Type`) NOT IN ('free')
-    )
-"""
-    keywords_sum_df = pysqldf(keywords_sum_q)
-    st.dataframe(keywords_sum_df)
+    # Filter out specific emails and items
+    filtered_df = Ph_Df[
+        ~Ph_Df['Email'].str.lower().isin(['brahms23@yahoo.com', 'brahms23@gmail.com']) &
+        ~Ph_Df['Items'].str.lower().isin(['aa clarinet 1 evaluation', 'aa clarinet 2 evaluation']) &
+        Ph_Df['Payment Type'].str.lower() != 'free'
+    ]
+
+    # Define keywords to search for in the 'Items' column
+    keywords = {
+        'clarinet': 'clarinet', 'oboe': 'oboe', 'flute': 'flute', 'recorder': 'recorder',
+        'saxophone': 'saxophone', 'brass': 'brass', 'trombone': 'trombone', 'bassoon': 'bassoon',
+        'trumpet': 'trumpet', 'frenchhorn': 'french_horn', 'woodwind': 'ww', 'tuba': 'tuba',
+        'euphonium': 'euphonium', 'cello': 'cello', 'soundfiles': 'sound_files', 'string': 'string'
+    }
+
+    # Initialize a DataFrame to store sums
+    keyword_sums = pd.DataFrame(columns=keywords.keys())
+
+    # Compute the sums for each keyword
+    for keyword in keywords:
+        filtered_df[keyword] = filtered_df['Items'].str.contains(keywords[keyword], case=False, na=False)
+        keyword_sums.loc[0, keyword] = filtered_df[keyword].sum()
+    st.dataframe(keywords_sums)
 
 
 # Table for Items 

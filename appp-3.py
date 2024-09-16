@@ -523,6 +523,10 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading
 
     Ph_Df = pd.read_csv(uploaded_file_customer, sep = ',')
+
+    # Define a function to use pandasql
+    pysqldf = lambda q: sqldf(q, globals())
+    
     keyword_sum_q = """
 SELECT
     SUM(clarinet) AS clarinet,

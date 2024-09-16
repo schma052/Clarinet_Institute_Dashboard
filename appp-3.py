@@ -365,7 +365,8 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     # Items are in _customer
     PH_df = pd.read_csv(uploaded_file_customer, sep = ',')  
     
-    pysqldf = lambda q: sqldf(q, globals())  
+    # Define a function to use pandasql
+    pysqldf = lambda q: sqldf(q, globals())
 
     kw_day_q = """
 SELECT

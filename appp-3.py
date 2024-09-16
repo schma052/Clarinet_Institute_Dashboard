@@ -518,37 +518,6 @@ GROUP BY Country, Day
     st.markdown(":blue[Advertising impact changes depending on the item, item type, and the country.]")
     st.markdown(" ")
 
-# Graph For Keyword Sums 
-if uploaded_file_sales is not None and uploaded_file_customer is not None:
-    uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading
-
-    Ph_Df = pd.read_csv(uploaded_file_customer, sep = ',')
-
-    # Filter out specific emails and items
-    filtered_df = Ph_Df[
-        ~Ph_Df['Email'].str.lower().isin(['brahms23@yahoo.com', 'brahms23@gmail.com']) &
-        ~Ph_Df['Items'].str.lower().isin(['aa clarinet 1 evaluation', 'aa clarinet 2 evaluation']) &
-        Ph_Df['Payment Type'].str.lower() != 'free'
-    ]
-
-    # Define keywords to search for in the 'Items' column
-    keywords = {
-        'clarinet': 'clarinet', 'oboe': 'oboe', 'flute': 'flute', 'recorder': 'recorder',
-        'saxophone': 'saxophone', 'brass': 'brass', 'trombone': 'trombone', 'bassoon': 'bassoon',
-        'trumpet': 'trumpet', 'frenchhorn': 'french_horn', 'woodwind': 'ww', 'tuba': 'tuba',
-        'euphonium': 'euphonium', 'cello': 'cello', 'soundfiles': 'sound_files', 'string': 'string'
-    }
-
-    # Initialize a DataFrame to store sums
-    keyword_sums = pd.DataFrame(columns=keywords.keys())
-
-    # Compute the sums for each keyword
-    for keyword in keywords:
-        filtered_df[keyword] = filtered_df['Items'].str.contains(keywords[keyword], case=False, na=False)
-        keyword_sums.loc[0, keyword] = filtered_df[keyword].sum()
-    st.dataframe(keywords_sums)
-
-
 # Table for Items 
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading

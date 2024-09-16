@@ -492,7 +492,6 @@ GROUP BY Country, Day
     st.write("**Items Through Advertising Cycle:**")
 
     # Graph For Keyword Sums 
-    pysqldf = lambda q: sqldf(q, globals())  
 
     keyword_sum_q = """
 SELECT

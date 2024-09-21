@@ -1573,7 +1573,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     digi_df.rename(columns={'Items In Cart': 'Items'}, inplace=True)
     digi_df.rename(columns={'Unsubscribed From Email Updates': 'Email Unsub'}, inplace=True)
     
-    digi_df = hip_df[["Date", 'Email Unsub']]
+    digi_df = digi_df[["Date", 'Email Unsub']]
 
     # Sort data first by item and then by date
     digi_df.sort_values(by=['Date', 'Email Unsub'], inplace=True)

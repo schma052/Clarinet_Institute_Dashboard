@@ -1561,7 +1561,25 @@ ORDER BY Date
 
     # Display the bar chart with the selected columns
     st.bar_chart(Q_df[columns_to_display], stack=False)
+
+# Unsub Rates over Time
+if uploaded_file_sales is not None and uploaded_file_customer is not None:
+    uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
+    uploaded_file_sales.seek(0) 
+
+    digi_df = pd.read_csv(uploaded_file_customer, sep=',')
+    # Rename the 'Sales' column to 'Physical Sales'
+    digi_df.rename(columns={'Country Name': 'Country'}, inplace=True)
+    digi_df.rename(columns={'Items In Cart': 'Items'}, inplace=True)
+    digi_df.rename(columns={'Unsubscribed From Email Updates': 'Email Unsub'}, inplace=True)
     
+    digi_df = hip_df[["Date", 'Email Unsub']]
+
+    # Sort data first by item and then by date
+    digi_df.sort_values(by=['Date', 'Email Unsub'], inplace=True)
+    st.dataframe(digi_df)
+
+
 # What makes a Email Unsubscriber
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
     uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       

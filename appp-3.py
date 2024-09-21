@@ -1579,7 +1579,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     digi_df.sort_values(by=['Date', 'Email Unsub'], inplace=True)
     digi_df = digi_df.groupby('Date').sum()
     st.markdown("**Email Unsubs Over Time:**")
-    st.line_chart(digi_df.set_index('Date')[['Email Unsub']])
+    st.line_chart(digi_df[['Date', 'Email Unsub']], x='Date', y='Email Unsub', color='lightblue'))
 
 # What makes a Email Unsubscriber
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

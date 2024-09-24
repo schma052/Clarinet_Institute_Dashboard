@@ -1596,7 +1596,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
     unsub_by_country = digi_df.groupby(['Date', 'Country Group'])['Email Unsub'].sum().unstack(fill_value=0)
     
     # Display the data using a line chart in Streamlit
-    st.markdown("**Daily Email Unsubscriptions (Top 5 Countries + RoW):**")
+    st.markdown("**Daily Email Unsubscriptions:**")
     st.line_chart(unsub_by_country)
 
 

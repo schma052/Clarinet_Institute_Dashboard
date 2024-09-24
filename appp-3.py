@@ -1562,24 +1562,43 @@ ORDER BY Date
     # Display the bar chart with the selected columns
     st.bar_chart(Q_df[columns_to_display], stack=False)
 
-# Unsub Rates over Time
+# Assuming you've already uploaded the files
 if uploaded_file_sales is not None and uploaded_file_customer is not None:
-    uploaded_file_customer.seek(0)  # Reset the file pointer to the start of the file every time before reading       
+    uploaded_file_customer.seek(0)  # Reset the file pointer
     uploaded_file_sales.seek(0) 
 
     digi_df = pd.read_csv(uploaded_file_customer, sep=',')
-    # Rename the 'Sales' column to 'Physical Sales'
+    
+    # Rename the columns
     digi_df.rename(columns={'Country Name': 'Country'}, inplace=True)
     digi_df.rename(columns={'Items In Cart': 'Items'}, inplace=True)
     digi_df.rename(columns={'Unsubscribed From Email Updates': 'Email Unsub'}, inplace=True)
     
+    # Filter necessary columns
     digi_df = digi_df[["Date", 'Email Unsub', 'Country']]
-
-    # Sort data first by item and then by date
+    
+    # Convert 'Date' column to datetime for better manipulation
+    digi_df['Date'] = pd.to_datetime(digi_df['Date'])
+    
+    # Sort data by date
     digi_df.sort_values(by=['Date', 'Email Unsub', 'Country'], inplace=True)
-    digi_df = digi_df.groupby('Date').sum()
-    st.markdown("**Daily Email Unsubscriptions:**")
-    st.line_chart(digi_df[['Email Unsub']], color = 'Country')
+    
+    # Get total unsubscriptions per country
+    country_unsub_totals = digi_df.groupby('Country')['Email Unsub'].sum().sort_values(ascending=False)
+    
+    # Get the top 5 countries
+    top_5_countries = country_unsub_totals.head(5).index.tolist()
+    
+    # Create a new column grouping the rest of the countries as "RoW"
+    digi_df['Country Group'] = digi_df['Country'].apply(lambda x: x if x in top_5_countries else 'RoW')
+    
+    # Now group by Date and Country Group to get daily unsubscriptions
+    unsub_by_country = digi_df.groupby(['Date', 'Country Group'])['Email Unsub'].sum().unstack(fill_value=0)
+    
+    # Display the data using a line chart in Streamlit
+    st.markdown("**Daily Email Unsubscriptions (Top 5 Countries + RoW):**")
+    st.line_chart(unsub_by_country)
+
 
 # What makes a Email Unsubscriber
 if uploaded_file_sales is not None and uploaded_file_customer is not None:

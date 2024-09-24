@@ -1577,7 +1577,7 @@ if uploaded_file_sales is not None and uploaded_file_customer is not None:
 
     # Sort data first by item and then by date
     digi_df.sort_values(by=['Date', 'Email Unsub', 'Country'], inplace=True)
-    digi_df = digi_df.groupby('Date', 'Country').sum()
+    digi_df = digi_df.groupby('Date').sum()
     st.markdown("**Daily Email Unsubscriptions:**")
     st.line_chart(digi_df[['Email Unsub', color == 'Country']])
 
